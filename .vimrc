@@ -24,6 +24,7 @@ Plugin 'wesleyche/SrcExpl'
 Plugin 'Chiel92/vim-autoformat'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'justmao945/vim-clang'
+Plugin 'airblade/vim-gitgutter'
 "Plugin 'Valloric/YouCompleteMe'
 Plugin 'ctrlpvim/ctrlp.vim'
 " Track the engine.
@@ -88,13 +89,16 @@ filetype plugin indent on    " required
 "    -> Misc
 "    -> Helper functions
 "
+"GitGutter Configs 
+"You can jump between hunks with [c and ]c. You can preview, stage, and undo hunks with <leader>hp, <leader>hs, and <leader>hu respectively.
+nmap <Leader>ha <Plug>GitGutterStageHunk
+"
 "Syntastic configs
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_cpp_compiler="clang++"
 let g:syntastic_cpp_compiler_options="-std=c++11 -stdlib=libc++"
