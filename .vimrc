@@ -88,9 +88,20 @@ filetype plugin indent on    " required
 "    -> Misc
 "    -> Helper functions
 "
+"Syntastic configs
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_cpp_compiler="clang++"
+let g:syntastic_cpp_compiler_options="-std=c++11 -stdlib=libc++"
+"
 "Vim-clang configuration
 let g:clang_c_options = '-std=gnu11'
-let g:clang_cpp_options = '-std=c++11 -stdlib=libc++'
+let g:clang_cpp_options = '-std=c++11 -stdlib=libc++ '
 
 "Autoformat configuration
 noremap <F3> :Autoformat<CR>
