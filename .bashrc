@@ -145,6 +145,7 @@ alias hidden="ls -a | grep '^\.[a-zA-Z]\+.*'"
 alias ..2='cd ../../'
 alias ..3='cd ../../..'
 alias ..4=
+alias gst='git st'
 #alias http="python -m SimpleHTTPServer"
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -229,9 +230,14 @@ alias cutvpn="vpnc-disconnect"
 
 # user-defined environment variables 
 export GTEST_ROOT="/home/colin/Downloads/gtest-1.7.0"
-export PATH=/opt/local/bin:$PATH
+export PATH=/opt/local/bin:$PATH:/usr/local/go/bin
 
 source ~/.local/bin/bashmarks.sh
-
+export GOPATH=$HOME/dev/go
 export NVM_DIR="/home/colin/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+## python virtual env home directory 
+# swtich env: workon ENV 
+export WORKON_HOME=~/PyEnvs
+source /usr/local/bin/virtualenvwrapper.sh
+eval $(thefuck --alias fuck)
