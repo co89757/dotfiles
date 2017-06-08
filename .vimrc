@@ -1,5 +1,6 @@
 set nocompatible              " be iMproved, required
 set number "set line # 
+set shell=/bin/bash
 inoremap jj <ESC>
 filetype off                  " required
 
@@ -25,6 +26,8 @@ Plugin 'Chiel92/vim-autoformat'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'justmao945/vim-clang'
 Plugin 'airblade/vim-gitgutter'
+Plugin 'vim-scripts/Conque-GDB' 
+Plugin 'fatih/vim-go' 
 "Plugin 'Valloric/YouCompleteMe'
 Plugin 'ctrlpvim/ctrlp.vim'
 " Track the engine.
@@ -88,6 +91,11 @@ filetype plugin indent on    " required
 "    -> Spell checking
 "    -> Misc
 "    -> Helper functions
+"----------------------------------------------- PLUGIN CONFIGURATIONS ---------------------------------------------------------
+"Conque-GDB configs
+let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
+let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
+let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly
 "
 "GitGutter Configs 
 "You can jump between hunks with [c and ]c. You can preview, stage, and undo hunks with <leader>hp, <leader>hs, and <leader>hu respectively.
@@ -114,9 +122,7 @@ autocmd BufWrite *.h,*.cc,*cpp :Autoformat
 "C++ highlight config 
 let g:cpp_experimental_template_highlight = 1
 "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CtrlP configuration """""""""""""""""""""""""""""""""""""""""
-" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrl_working_path_mode = 'ra'
