@@ -39,5 +39,5 @@ fi
 sudo cp $SSCONFIGFILE /etc/shadowsocks.json 
 echo "--- starting sserver ----"
 
-sudo sserver -c /etc/shadowsocks.json -d start 
+sudo ssserver -c /etc/shadowsocks.json -d start 
 
