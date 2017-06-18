@@ -41,3 +41,10 @@ echo "--- starting sserver ----"
 
 sudo ssserver -c /etc/shadowsocks.json -d start 
 
+sspid=$(pgrep ssserver)
+if [[ -z $sspid ]]; then
+  echo "found no ssserver process, the server startup may be unsuccessful"
+else
+  echo "shadowsocks server successfully starts, PID: $sspid"
+fi
+
