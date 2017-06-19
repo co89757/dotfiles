@@ -12,7 +12,7 @@ fi
 echo "========= Start shadowsocks setup ====="
 echo " --- checking dependencies ---"
 hash pip 2> /dev/null || (echo "pip is missing. install it" && sudo apt-get install python-pip )
-# hash ssserver || (echo "shadowsocks is not installed. installing it" && sudo pip install shadowsocks)
+hash ssserver || (echo "shadowsocks is not installed. installing it" && sudo pip install shadowsocks)
 SSCONFIGFILE="N/A" 
 echo "----- get config ----"
 while [[ $# -gt 1 ]]; do
