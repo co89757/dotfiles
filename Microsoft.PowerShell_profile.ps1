@@ -76,6 +76,26 @@ if ( -not (Test-Path alias:wc) ) {
     set-alias wc Count-Line
 }
 
+function Get-FolderSize () {
+    [CmdletBinding()]
+    param(
+        # Specifies a path to one or more locations.
+        [Parameter(Mandatory=$true,
+                   Position=1,
+                   ValueFromPipeline=$true,
+                   ValueFromPipelineByPropertyName=$true,
+                   HelpMessage="folder path.")]
+        [Alias("PSPath")]
+        [ValidateNotNullOrEmpty()]
+        [ValidateScript({Test-Path -Path $_ -PathType Container })]
+        [string[]]
+        $FolderPath 
+    )
+    Get-ChildItem -Path $FolderPath -File -Recurse |
+    Measure-Object -Property Length -Sum | 
+    Select-Object @{Name="Folder Size (KB)";Expression={$_.Sum / 1KB} }
+}
+
 function UnZip  () {
     [CmdletBinding()]
     param(
