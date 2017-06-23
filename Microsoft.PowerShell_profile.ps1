@@ -243,3 +243,38 @@ function Tidy-Xml {
         }
     }
 }
+
+# Append a location to system PATH variable
+function Add-Path () {
+    [CmdletBinding()]
+    param(
+        # Specifies a path to one or more locations.
+        [Parameter(Mandatory=$true,
+                   Position=1,
+                   ValueFromPipeline=$true, 
+                   ValueFromPipelineByPropertyName=$true,
+                   HelpMessage="Path to append to PATH sysvar.")]
+        [Alias("PSPath")]
+        [ValidateNotNullOrEmpty()]
+        [string]
+        $PathToAppend
+    )
+
+    #test if path exists 
+    if (-not (Test-Path -Path $PathToAppend)) {
+        Write-Error "$PathToAppend is not a valid location."
+        return 
+    }
+    $RegKey = "Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment"
+    # get old path 
+    $oldpath = (Get-ItemProperty -Path $RegKey -Name PATH ).Path 
+    Write-Debug "Old %PATH%: $oldpath" 
+    # test if alerady contains 
+    if ($oldpath.Contains( $PathToAppend )) {
+        Write-Host "$PathToAppend already exists in $oldpath, do nothing..."
+        return        
+    }
+    $newpath = $oldpath + ";" + $PathToAppend 
+    Set-ItemProperty -Path $RegKey -Name PATH -Value $newpath 
+    Write-Verbose "path $PathToAppend is appended to PATH variable" 
+}
