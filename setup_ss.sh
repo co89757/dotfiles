@@ -12,7 +12,7 @@ fi
 echo "========= Start shadowsocks setup ====="
 echo " --- checking dependencies ---"
 hash pip 2> /dev/null || (echo "pip is missing. install it" && sudo apt-get install python-pip )
-hash ssserver || (echo "shadowsocks is not installed. installing it" && sudo pip install shadowsocks)
+hash ssserver && echo "ssserver is already installed" || (echo "shadowsocks is not installed. installing it" && sudo pip install shadowsocks)
 SSCONFIGFILE="N/A" 
 echo "----- get config ----"
 while [[ $# -gt 1 ]]; do
@@ -29,7 +29,7 @@ while [[ $# -gt 1 ]]; do
 	esac
 	shift
 done
-
+ 
 echo "ssserver config file is given by $SSCONFIGFILE"
 if [[ ! -e $SSCONFIGFILE ]]; then
 	echo "$SSCONFIGFILE is not found. please check if it exists"
@@ -38,8 +38,17 @@ fi
 #copy over config 
 sudo cp $SSCONFIGFILE /etc/shadowsocks.json 
 echo "--- starting sserver ----"
+sspid=$(pgrep ssserver)
+if [[ -z $sspid ]]; then
+  echo "ssserver is not running, so starting it"
+  sudo ssserver -c /etc/shadowsocks.json -d start 
+else
+  echo "detected ssserver instance, restarting it"
+  sudo ssserver -d stop
+  sudo ssserver -c /etc/shadowsocks.json -d start 
+fi
 
-sudo ssserver -c /etc/shadowsocks.json -d start 
+echo "Installation complete, sanity check now"
 
 sspid=$(pgrep ssserver)
 if [[ -z $sspid ]]; then
