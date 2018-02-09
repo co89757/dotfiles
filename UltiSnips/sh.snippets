@@ -1,0 +1,39 @@
+snippet strict "strict mode for bash script" b
+set -euo pipefail
+trap "echo 'error: Script failure: see failed command above '" ERR 
+export PS4="'+(${BASH_SOURCE}:${LINENO}): ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'"
+script_debug=0 #Switch for debug mode 
+debugme() {
+ [[ $script_debug = 1 ]] && "$@" || :
+# be sure to append || : or || true here or use return 0, since the return code
+# of this function should always be 0 to not influence anything else with an unwanted
+# "false" return code (for example the script's exit code if this function is used
+# as the very last command in the script)
+}
+endsnippet
+
+snippet color "coloring console output" b
+######### Colored output to console ###### 
+#ANSI escape codes:
+
+#Black        0;30     Dark Gray     1;30
+#Red          0;31     Light Red     1;31
+#Green        0;32     Light Green   1;32
+#Brown/Orange 0;33     Yellow        1;33
+#Blue         0;34     Light Blue    1;34
+#Purple       0;35     Light Purple  1;35
+#Cyan         0;36     Light Cyan    1;36
+#Light Gray   0;37     White         1;37
+#And then use them like this in your script:
+
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+printf "I ${RED}love${NC} Stack Overflow\n" ## print love in red 
+
+print_err()
+{
+ RED='\033[0;31m'
+ LITEGRAY='\033[0;37M'
+ printf "${RED}ERROR:${NC} ${LITEGRAY} $(printf $@) ${NC}\n";
+}
+endsnippet
