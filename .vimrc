@@ -12,9 +12,10 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
+"python-syntax option:
+"  :Python3Syntax to use py3 syntax highlighting 
 Plugin 'hdima/python-syntax'
 Plugin 'Townk/vim-autoclose'
-Plugin 'pythoncomplete'
 Plugin 'mattn/emmet-vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'scrooloose/syntastic'
@@ -24,11 +25,10 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'wesleyche/SrcExpl'
 Plugin 'Chiel92/vim-autoformat'
 Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'justmao945/vim-clang'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'vim-scripts/Conque-GDB' 
 Plugin 'fatih/vim-go' 
-"Plugin 'Valloric/YouCompleteMe'
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'ctrlpvim/ctrlp.vim'
 " Track the engine.
 Plugin 'SirVer/ultisnips'
@@ -92,6 +92,9 @@ filetype plugin indent on    " required
 "    -> Misc
 "    -> Helper functions
 "----------------------------------------------- PLUGIN CONFIGURATIONS ---------------------------------------------------------
+"YOU_COMPLETE_ME Configs
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py'
+
 "Conque-GDB configs
 let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
 let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
@@ -111,10 +114,6 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_cpp_compiler="clang++"
 let g:syntastic_cpp_compiler_options="-std=c++11 -stdlib=libc++"
 "
-"Vim-clang configuration
-let g:clang_c_options = '-std=gnu11'
-let g:clang_cpp_options = '-std=c++11 -stdlib=libc++ '
-
 "Autoformat configuration
 noremap <F3> :Autoformat<CR>
 autocmd BufWrite *.h,*.cc,*cpp :Autoformat
@@ -130,7 +129,7 @@ let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standar
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " UltiSnip Confgis """""""""""""""""""""""""""""""""""""""""""" 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsExpandTrigger="<c-k>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
