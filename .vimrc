@@ -1,5 +1,5 @@
 set nocompatible              " be iMproved, required
-set number "set line # 
+set number "set line #
 set shell=/bin/bash
 inoremap jj <ESC>
 filetype off                  " required
@@ -13,7 +13,7 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 "python-syntax option:
-"  :Python3Syntax to use py3 syntax highlighting 
+"  :Python3Syntax to use py3 syntax highlighting
 Plugin 'hdima/python-syntax'
 Plugin 'Townk/vim-autoclose'
 Plugin 'mattn/emmet-vim'
@@ -24,12 +24,16 @@ Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'wesleyche/SrcExpl'
 Plugin 'Chiel92/vim-autoformat'
+" Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'vim-scripts/Conque-GDB' 
-Plugin 'fatih/vim-go' 
+Plugin 'tpope/vim-fugitive'
+Plugin 'vim-scripts/Conque-GDB'
+Plugin 'fatih/vim-go'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'vim-airline/vim-airline'
+
 " Track the engine.
 Plugin 'SirVer/ultisnips'
 " Snippets are separated from the engine. Add this if you want them:
@@ -54,14 +58,14 @@ filetype plugin indent on    " required
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Maintainer: 
+" Maintainer:
 "       Amir Salihefendic
 "       http://amix.dk - amix@amix.dk
 "
-" Version: 
+" Version:
 "       5.0 - 29/05/12 15:43:36
 "
-" Blog_post: 
+" Blog_post:
 "       http://amix.dk/blog/post/19691#The-ultimate-Vim-configuration-on-Github
 "
 " Awesome_version:
@@ -74,7 +78,7 @@ filetype plugin indent on    " required
 " Syntax_highlighted:
 "       http://amix.dk/vim/vimrc.html
 "
-" Raw_version: 
+" Raw_version:
 "       http://amix.dk/vim/vimrc.txt
 "
 " Sections:
@@ -92,6 +96,13 @@ filetype plugin indent on    " required
 "    -> Misc
 "    -> Helper functions
 "----------------------------------------------- PLUGIN CONFIGURATIONS ---------------------------------------------------------
+
+
+"Vim Airline Configs
+let g:airline#extensions#tabline#enabled = 1
+
+
+
 "YOU_COMPLETE_ME Configs
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py'
 
@@ -100,9 +111,9 @@ let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always w
 let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
 let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly
 "
-"GitGutter Configs 
+"GitGutter Configs
 "You can jump between hunks with [c and ]c. You can preview, stage, and undo hunks with <leader>hp, <leader>hs, and <leader>hu respectively.
-nmap <Leader>ha <Plug>GitGutterStageHunk
+nnoremap <Leader>ha <Plug>GitGutterStageHunk
 "
 "Syntastic configs
 set statusline+=%#warningmsg#
@@ -111,29 +122,76 @@ set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_check_on_open = 1
-let g:syntastic_cpp_compiler="clang++"
-let g:syntastic_cpp_compiler_options="-std=c++11 -stdlib=libc++"
+let g:syntastic_cpp_compiler="g++"
+let g:syntastic_cpp_compiler_options="-std=c++11 -Wall -Wextra"
 "
 "Autoformat configuration
 noremap <F3> :Autoformat<CR>
 autocmd BufWrite *.h,*.cc,*cpp :Autoformat
-"
-"C++ highlight config 
+"Papercolor theme conifg
+" let g:PaperColor_Theme_Options = {
+"   \   'language': {
+"   \     'python': {
+"   \       'highlight_builtins' : 1
+"   \     },
+"   \     'cpp': {
+"   \       'highlight_standard_library': 1
+"   \     },
+"   \     'c': {
+"   \       'highlight_builtins' : 1
+"   \     }
+"   \   }
+"   \ }
+
+" set background=dark
+
+
+"C++ highlight config
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
 let g:cpp_experimental_template_highlight = 1
-"
+let c_no_curly_error=1
+
+"set colorscheme
+colorscheme lucius
+
+
 " CtrlP configuration """""""""""""""""""""""""""""""""""""""""
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrl_working_path_mode = 'ra'
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard' ]
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" UltiSnip Confgis """""""""""""""""""""""""""""""""""""""""""" 
+" UltiSnip Confgis """"""""""""""""""""""""""""""""""""""""""""
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-k>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetDirectories=['~/.vim/UltiSnips','UltiSnips']
+
+" SrcExpl Configuration """"""""""""""""""""""""""
+" // Set the height of Source Explorer window
+let g:SrcExpl_winHeight = 8
+
+" // Set 100 ms for refreshing the Source Explorer
+let g:SrcExpl_refreshTime = 100
+
+" // Set "F12" key to jump into the exact definition context
+let g:SrcExpl_jumpKey = "<F12>"
+
+" // Set "Space" key for back from the definition context
+let g:SrcExpl_gobackKey = "<SPACE>"
+
+" // In order to avoid conflicts, the Source Explorer should know what plugins
+" // except itself are using buffers. And you need add their buffer names into
+" // below listaccording to the command ":buffers!"
+let g:SrcExpl_pluginList = [
+        \ "__Tag_List__",
+        \ "_NERD_tree_"
+    \ ]
+
 
 " " If you want :UltiSnipsEdit to split your window.
 " let g:UltiSnipsEditSplit="vertical"
@@ -166,6 +224,15 @@ autocmd Syntax * RainbowParenthesesLoadSquare
 autocmd Syntax * RainbowParenthesesLoadBraces
 
 nnoremap <F7> :RainbowParenthesesToggle<CR>
+"python with virtualenv support
+python3 << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+  project_base_dir = os.environ['VIRTUAL_ENV']
+  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+  exec(open(activate_this).read(), dict(__file__=activate_this))
+EOF
 
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -187,18 +254,18 @@ let g:mapleader = ","
 
 " Surround current word with quotes
 :nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
-imap <C-l> <esc>ddi 
-"COLIN-remove trailing spaces on each line 
-nmap <leader><Space><Space> :%s/\s\+$//<cr> 
+imap <C-l> <esc>ddi
+"COLIN-remove trailing spaces on each line
+nmap <leader><Space><Space> :%s/\s\+$//<cr>
 " Fast saving
 nmap <leader>w :w!<cr>
-" Tagbar toggle 
+" Tagbar toggle
 nmap <F8> :TagbarToggle<CR>
-"turn on source explorer 
+"turn on source explorer
 nmap <F10> :SrcExplToggle<CR>
 "open nerd tree
 nmap <F9> :NERDTreeToggle<CR>
-" :W sudo saves the file 
+" :W sudo saves the file
 " (useful for handling the permission-denied error)
 command W w !sudo tee % > /dev/null
 
@@ -210,7 +277,7 @@ command W w !sudo tee % > /dev/null
 set so=7
 
 " Avoid garbled characters in Chinese language windows OS
-let $LANG='en' 
+let $LANG='en'
 set langmenu=en
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
@@ -247,23 +314,23 @@ endif
 " Ignore case when searching
 set ignorecase
 
-" When searching try to be smart about cases 
+" When searching try to be smart about cases
 set smartcase
 
 " Highlight search results
 set hlsearch
 
 " Makes search act like search in modern browsers
-set incsearch 
+set incsearch
 
 " Don't redraw while executing macros (good performance config)
-set lazyredraw 
+set lazyredraw
 
 " For regular expressions turn magic on
 set magic
 
 " Show matching brackets when text indicator is over them
-set showmatch 
+set showmatch
 " How many tenths of a second to blink when matching brackets
 set mat=2
 
@@ -281,14 +348,7 @@ set foldcolumn=1
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable syntax highlighting
-syntax enable 
-
-try
-    colorscheme desert
-catch
-endtry
-
-set background=dark
+syntax enable
 
 " Set extra options when running in GUI mode
 if has("gui_running")
@@ -377,8 +437,8 @@ map <leader>ba :bufdo bd<cr>
 map <leader>tn :tabnew<cr>
 map <leader>to :tabonly<cr>
 map <leader>tc :tabclose<cr>
-map <leader>tm :tabmove 
-map <leader>t<leader> :tabnext 
+map <leader>tm :tabmove
+map <leader>t<leader> :tabnext
 
 " Let 'tl' toggle between this and the last accessed tab
 let g:lasttab = 1
@@ -393,7 +453,7 @@ map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 " Switch CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
-" Specify the behavior when switching between buffers 
+" Specify the behavior when switching between buffers
 try
   set switchbuf=useopen,usetab,newtab
   set stal=2
@@ -456,7 +516,7 @@ autocmd BufWrite *.coffee :call DeleteTrailingWS()
 vnoremap <silent> gv :call VisualSelection('gv', '')<CR>
 
 " Open Ag and put the cursor in the right position
-map <leader>g :Ag 
+map <leader>g :Ag
 
 " When you press <leader>r you can search and replace the selected text
 vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
@@ -506,9 +566,6 @@ map <leader>x :e ~/buffer.md<cr>
 " Toggle paste mode on and off
 map <leader>pp :setlocal paste!<cr>
 
-
-
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -516,7 +573,7 @@ function! CmdLine(str)
     exe "menu Foo.Bar :" . a:str
     emenu Foo.Bar
     unmenu Foo
-endfunction 
+endfunction
 
 function! VisualSelection(direction, extra_filter) range
     let l:saved_reg = @"
