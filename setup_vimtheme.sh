@@ -7,7 +7,7 @@ if [[ ! -d $THEME_DIR ]];then
   exit 1
 fi
 
-VIM_COLOR_DIR=$HOME/.vim/color 
+VIM_COLOR_DIR=$HOME/.vim/colors
 
 if [[ ! -d ${VIM_COLOR_DIR} ]]; then
     echo "${VIM_COLOR_DIR} not found, creating it ... "
