@@ -182,8 +182,12 @@ markdown "$1" | lynx -stdin
 }
 
 #### connect to my private VPS server ####
-link2vps(){
-ssh -X "$1"@${VPSIP}
+link2sea(){
+ssh -X "$1"@${AZVMSEA}
+}
+
+link2usvm(){
+ssh -X $AZVMUS 
 }
 
 ### Git aliases ####

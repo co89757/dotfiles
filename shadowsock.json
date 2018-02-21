@@ -1,11 +1,12 @@
 
 {
    "server":"0.0.0.0",
-   "server_port":8033,
+   "server_port":8133,
    "local_address":"127.0.0.1",
    "local_port":1080,
-   "password":"xxxxxx",
+   "password":"YOUR_PASSWORD",
    "timeout":300,
-   "method":"aes-256-cfb"
+   "method":"aes-256-cfb",
+   "fast_open": true
 }
 
