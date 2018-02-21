@@ -14,6 +14,6 @@ if [[ ! -d ${VIM_COLOR_DIR} ]]; then
     mkdir -p $VIM_COLOR_DIR
 fi
 echo "Copying color themes to vim color folder $VIM_COLOR_DIR"
-cp $THEME_DIR/*.vim ~/.vim/color/
+cp $THEME_DIR/*.vim  $VIM_COLOR_DIR
 
 echo "DONE"
