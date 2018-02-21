@@ -24,7 +24,6 @@ Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'wesleyche/SrcExpl'
 Plugin 'Chiel92/vim-autoformat'
-" Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-fugitive'
@@ -33,8 +32,6 @@ Plugin 'fatih/vim-go'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'vim-airline/vim-airline'
-
-" Track the engine.
 Plugin 'SirVer/ultisnips'
 " Snippets are separated from the engine. Add this if you want them:
 Plugin 'honza/vim-snippets'
@@ -154,7 +151,7 @@ let g:cpp_experimental_template_highlight = 1
 let c_no_curly_error=1
 
 "set colorscheme
-colorscheme lucius
+"colorscheme lucius
 
 
 " CtrlP configuration """""""""""""""""""""""""""""""""""""""""

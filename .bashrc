@@ -151,10 +151,10 @@ alias gst='git st'
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias rsync='rsync -anvr'
-mcd(){ mkdir -p "$1" && cd "$1";} 
+mcd(){ mkdir -p "$1" && cd "$1";}
 xtract(){
     if [ -f $1 ]; then
-        case $1 in 
+        case $1 in
             *.tar.bz2) tar xjf $1 ;;
             *.tar.gz) tar xzf $1 ;;
             *.bz2) bunzip2 $1 ;;
@@ -163,7 +163,7 @@ xtract(){
             *.tgz) tar xzf $1 ;;
         *.zip) unzip $1 ;;
             *) echo "'$1' cannot be extracted, file type not supported  " ;;
-        esac 
+        esac
     else
         echo "'$1' is not a valid file  "
      fi
@@ -171,11 +171,11 @@ xtract(){
 
 qtex(){
 if [ -f "$1".tex ]; then
-    pdflatex "$1".tex 
+    pdflatex "$1".tex
     bibtex "$1".aux
-    pdflatex "$1".tex 
-    pdflatex "$1".tex 
-fi 
+    pdflatex "$1".tex
+    pdflatex "$1".tex
+fi
 }
 mdview(){
 markdown "$1" | lynx -stdin
@@ -183,7 +183,7 @@ markdown "$1" | lynx -stdin
 
 #### connect to my private VPS server ####
 link2vps(){
-ssh -X "$1"@${VPSIP} 
+ssh -X "$1"@${VPSIP}
 }
 
 ### Git aliases ####
@@ -223,21 +223,20 @@ export LESS_TERMCAP_se=$'\E[0m'
 export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
-export VPSIP=178.62.176.117
+export AZVMSEA=52.230.13.112
+export AZVMUS=52.161.11.69
 export VPSPORT=8033
-alias ricevpn="sudo /usr/sbin/vpnc ~/Downloads/plugins/RiceVPN.conf"
-alias cutvpn="vpnc-disconnect"
-
-# user-defined environment variables 
-export GTEST_ROOT="/home/colin/Downloads/gtest-1.7.0"
-export PATH=/opt/local/bin:$PATH:/usr/local/go/bin
-
-source ~/.local/bin/bashmarks.sh
-export GOPATH=$HOME/dev/go
-export NVM_DIR="/home/colin/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-## python virtual env home directory 
-# swtich env: workon ENV 
+## python virtual env home directory
+# swtich env: workon ENV
 export WORKON_HOME=~/PyEnvs
-source /usr/local/bin/virtualenvwrapper.sh
-eval $(thefuck --alias fuck)
+
+# # user-defined environment variables
+# export GTEST_ROOT="/home/colin/Downloads/gtest-1.7.0"
+# export PATH=/opt/local/bin:$PATH:/usr/local/go/bin
+
+# source ~/.local/bin/bashmarks.sh
+# export GOPATH=$HOME/dev/go
+# export NVM_DIR="/home/colin/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# source /usr/local/bin/virtualenvwrapper.sh
+# eval $(thefuck --alias fuck)
