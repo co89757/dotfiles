@@ -1,5 +1,8 @@
 #!/usr/bin/env bash 
 
+echo "installing ctags if not found"
+hash ctags 2>/dev/null || sudo apt-get install exuberant-ctags 
+
 if [[ ! -e .vimrc ]]; then
 	echo "Did not find .vimrc file in current directory, please check again."
 	exit 1 

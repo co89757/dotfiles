@@ -196,6 +196,7 @@ alias gst='git status -s'
 alias gci='git commit'
 alias gl='git log --pretty=oneline'
 alias gb='git branch'
+alias gd='git diff'
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
@@ -236,10 +237,10 @@ export WORKON_HOME=~/PyEnvs
 
 # # user-defined environment variables
 # export GTEST_ROOT="/home/colin/Downloads/gtest-1.7.0"
-# export PATH=/opt/local/bin:$PATH:/usr/local/go/bin
+export PATH=/opt/local/bin:$PATH:/usr/local/go/bin
 
 # source ~/.local/bin/bashmarks.sh
-# export GOPATH=$HOME/dev/go
+export GOPATH=$HOME/dev/go
 # export NVM_DIR="/home/colin/.nvm"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 # source /usr/local/bin/virtualenvwrapper.sh

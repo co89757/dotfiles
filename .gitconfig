@@ -37,6 +37,9 @@
   ca = commit --amend
   ss = stash
   rs = reset
+  d  = diff 
+  a  = add 
+  cfg = config 
 
 [credential]
   helper = cache --timeout=21600

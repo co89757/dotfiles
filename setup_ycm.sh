@@ -2,11 +2,12 @@
 
 
 echo "Prerequisites for installing YCM"
+hash clang 2>/dev/null || sudo apt-get install clang 
 sudo apt-get install build-essential cmake python-dev python3-dev
 echo "cd to ~/.vim/bundle/YouCompleteMe"
 cd ~/.vim/bundle/YouCompleteMe && ./install.py --clang-completer
 EXTRA_CONFIG_FILE=.ycm_extra_conf.py
-if [[ -e $EXTRA_CONFIG_FILE ]]; then
+if [[ -e ./${EXTRA_CONFIG_FILE} ]]; then
   echo "Found $EXTRA_CONFIG_FILE!"
 else
   echo "$EXTRA_CONFIG_FILE not found, please provide"
