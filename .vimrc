@@ -15,8 +15,8 @@ Plugin 'gmarik/Vundle.vim'
 "python-syntax option:
 "  :Python3Syntax to use py3 syntax highlighting
 Plugin 'hdima/python-syntax'
-Plugin 'Townk/vim-autoclose'
 Plugin 'mattn/emmet-vim'
+Plugin 'jiangmiao/auto-pairs'
 Plugin 'majutsushi/tagbar'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
@@ -101,7 +101,12 @@ filetype plugin indent on    " required
 "Vim Airline Configs
 let g:airline#extensions#tabline#enabled = 1
 
-
+"NERD Commenter configs
+let g:NERDCommentEmptyLines = 1
+let g:NERDTrimTrailingWhitespace = 1
+let g:NERDDefaultAlign = 'left'
+let g:NERDCompactSexyComs = 1 
+let g:NERDSpaceDelims = 1
 
 "YOU_COMPLETE_ME Configs
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py'
@@ -233,7 +238,22 @@ if 'VIRTUAL_ENV' in os.environ:
   activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
   exec(open(activate_this).read(), dict(__file__=activate_this))
 EOF
+"Vim-Go configs
+" run :GoBuild or :GoTestCompile based on the go file
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#test#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction
 
+autocmd FileType go nnoremap <leader>b :<C-u>call <SID>build_go_files()<CR>
+autocmd FileType go nnoremap <leader>r :GoRun<CR>
+autocmd FileType go nnoremap <leader>t :GoTest<CR>
+nnoremap ]b :bnext<CR>
+nnoremap [b :bprevious<CR>
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Sets how many lines of history VIM has to remember
