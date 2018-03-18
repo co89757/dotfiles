@@ -1,0 +1,45 @@
+[user]
+	name = COLINL
+	email = colin.brat@gmail.com
+[color]
+  diff = auto
+  status = auto
+  branch = auto
+  interactive = auto
+  ui = true
+  pager = true
+
+[color "branch"]
+  current = yellow reverse
+  local = yellow
+  remote = green
+
+[color "diff"]
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
+
+[color "status"]
+  added = yellow
+  changed = green
+  untracked = cyan
+
+[core]
+  excludesfile = $HOME/.gitignore
+  pager = less -FRSX
+  whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+
+[alias]
+  ci = commit
+  co = checkout
+  st = status
+  ca = commit --amend
+  ss = stash
+  rs = reset
+  d  = diff 
+  a  = add 
+  cfg = config 
+
+[credential]
+  helper = cache --timeout=21600
