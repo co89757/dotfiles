@@ -109,6 +109,7 @@ let g:NERDSpaceDelims = 1
 
 "YOU_COMPLETE_ME Configs
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py'
+let g:ycm_collect_identifiers_from_tags_files = 1
 
 "Conque-GDB configs
 let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color

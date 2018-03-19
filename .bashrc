@@ -137,6 +137,8 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # some more ls aliases
+alias tmux="tmux -2"
+alias ctagsr="ctags -R --fields=+l"
 alias ll='ls -atlF'
 alias la='ls -At'
 alias l='ls -CFt'
@@ -151,10 +153,10 @@ alias gst='git st'
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias rsync='rsync -anvr'
-mcd(){ mkdir -p "$1" && cd "$1";}
+mcd(){ mkdir -p "$1" && cd "$1";} 
 xtract(){
     if [ -f $1 ]; then
-        case $1 in
+        case $1 in 
             *.tar.bz2) tar xjf $1 ;;
             *.tar.gz) tar xzf $1 ;;
             *.bz2) bunzip2 $1 ;;
@@ -163,7 +165,7 @@ xtract(){
             *.tgz) tar xzf $1 ;;
         *.zip) unzip $1 ;;
             *) echo "'$1' cannot be extracted, file type not supported  " ;;
-        esac
+        esac 
     else
         echo "'$1' is not a valid file  "
      fi
@@ -171,32 +173,37 @@ xtract(){
 
 qtex(){
 if [ -f "$1".tex ]; then
-    pdflatex "$1".tex
+    pdflatex "$1".tex 
     bibtex "$1".aux
-    pdflatex "$1".tex
-    pdflatex "$1".tex
-fi
+    pdflatex "$1".tex 
+    pdflatex "$1".tex 
+fi 
 }
 mdview(){
 markdown "$1" | lynx -stdin
 }
-
-#### connect to my private VPS server ####
-link2sea(){
-ssh -X "$1"@${AZVMSEA}
+newbr(){
+  if [[ $# -ne 1 ]]; then
+    echo "usage: newbr <branch_name>"
+    exit 1
+  fi
+  git checkout -b "co/$1"
 }
 
-link2usvm(){
-ssh -X $AZVMUS 
+firstpush(){
+  local bname=$(git symbolic-ref --short -q HEAD)
+  git push --set-upstream origin ${bname} 
 }
 
+alias py3='python3.6'
+alias prp='pipenv run python'
+alias prp3='pipenv run python3'
 ### Git aliases ####
 alias gadd='git add'
 alias gst='git status -s'
 alias gci='git commit'
 alias gl='git log --pretty=oneline'
 alias gb='git branch'
-alias gd='git diff'
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
@@ -228,20 +235,14 @@ export LESS_TERMCAP_se=$'\E[0m'
 export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
-export AZVMSEA=52.230.13.112
-export AZVMUS=52.161.11.69
-export VPSPORT=8033
-## python virtual env home directory
-# swtich env: workon ENV
-export WORKON_HOME=~/PyEnvs
-
-# # user-defined environment variables
-# export GTEST_ROOT="/home/colin/Downloads/gtest-1.7.0"
-export PATH=/opt/local/bin:$PATH:/usr/local/go/bin
-
-# source ~/.local/bin/bashmarks.sh
-export GOPATH=$HOME/dev/go
-# export NVM_DIR="/home/colin/.nvm"
+alias df="df -Tha --total"
+# user-defined environment variables 
+export PATH=/opt/local/bin:$PATH:/usr/local/go/bin:$GOPATH/bin
+# export GOPATH=$HOME/dev/go
+# export GOROOT="/usr/local/go"
+# export NVM_DIR="$HOME/.nvm"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-# source /usr/local/bin/virtualenvwrapper.sh
+## python virtual env home directory 
+# swtich env: workon ENV 
+# export WORKON_HOME=~/PyEnvs
 # eval $(thefuck --alias fuck)
