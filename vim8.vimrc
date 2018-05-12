@@ -144,8 +144,9 @@ let g:asyncrun_open = 6
 let g:asyncrun_bell = 1 
 let g:asyncrun_rootmarks = ['.svn','.git','.root','Makefile']
 nnoremap <F6> :call asyncrun#quickfix_toggle(6)<CR>
-nnoremap <silent> <S-C-B> :AsyncRun g++ -g -Wall -std=c++11 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
-nnoremap <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
+autocmd FileType cpp  nnoremap <buffer> <silent> <S-C-B> :AsyncRun g++ -g -Wall -std=c++11 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
+autocmd FileType python nnoremap <buffer> <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR)  python3 "$(VIM_FILEPATH)" <cr>
+autocmd FileType cpp  nnoremap <buffer> <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
 
 
 "Conque-GDB configs
@@ -176,7 +177,7 @@ let g:ale_echo_delay = 20
 let g:ale_sign_error = 'X'
 let g:ale_sign_warning = '!'
 let g:ale_echo_msg_error_str='E'
-let g:ale_sign_column_always = 1
+let g:ale_sign_column_always = 0
 let g:ale_echo_msg_warning_str='W'
 let g:ale_echo_msg_format='[%linter%] %s [%severity%]'
 let g:ale_lint_on_text_changed = 'normal'
@@ -194,7 +195,7 @@ hi SpellRare cterm=undercurl ctermfg=magenta
 "
 "Autoformat configuration
 noremap <F3> :Autoformat<CR>
-autocmd BufWrite *.h,*.cc,*cpp :Autoformat
+autocmd BufWrite *.h,*.cc,*cpp,*.py :Autoformat
 "Papercolor theme conifg
 " let g:PaperColor_Theme_Options = {
 "   \   'language': {
