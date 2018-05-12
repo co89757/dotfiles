@@ -12,6 +12,7 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
+"  :Python3Syntax to use py3 syntax highlighting
 Plugin 'hdima/python-syntax'
 Plugin 'mattn/emmet-vim'
 Plugin 'jiangmiao/auto-pairs'
@@ -19,17 +20,36 @@ Plugin 'majutsushi/tagbar'
 Plugin 'ludovicchabant/vim-gutentags'
 Plugin 'w0rp/ale'
 Plugin 'Yggdroot/LeaderF'
+"Custom text objects
+"new text-objs:
+"  i, and a, : parameter object
+"  ii and ai : identation object e.g vii dii cii 
+"  if and af : function object e.g. vif dif cif on functions
+"  new text-objs:
+"    i, and a, : parameter object
+"    ii and ai : identation object e.g vii dii cii 
+"    if and af : function object e.g. vif dif cif on functions
+Plugin 'kana/vim-textobj-user'
+Plugin 'kana/vim-textobj-indent'
+Plugin 'kana/vim-textobj-syntax'
+Plugin 'kana/vim-textobj-function'
+Plugin 'sgur/vim-textobj-parameter'
+
 Plugin 'scrooloose/nerdtree'
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'scrooloose/nerdcommenter'
-"Plugin 'wesleyche/SrcExpl'
 Plugin 'Chiel92/vim-autoformat'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-fugitive'
+"Plugin 'vim-scripts/Conque-GDB'
+"Plugin 'fatih/vim-go'
 Plugin 'skywind3000/asyncrun.vim'
 Plugin 'Valloric/YouCompleteMe'
+"Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'vim-airline/vim-airline'
+
+" Track the engine.
 Plugin 'SirVer/ultisnips'
 " Snippets are separated from the engine. Add this if you want them:
 Plugin 'honza/vim-snippets'
@@ -115,6 +135,9 @@ let g:Lf_ShortcutF = '<C-P>'
 let g:Lf_RootMarkers = ['.project','.root','.git','.svn']
 let g:Lf_CacheDirectory =expand('~/.vim/cache')
 nnoremap <S-P> :LeaderfFunction<CR>
+nnoremap <S-T> :LeaderfBuffer<CR>
+
+
 
 "AsyncRun configs
 let g:asyncrun_open = 6
@@ -123,6 +146,12 @@ let g:asyncrun_rootmarks = ['.svn','.git','.root','Makefile']
 nnoremap <F6> :call asyncrun#quickfix_toggle(6)<CR>
 nnoremap <silent> <S-C-B> :AsyncRun g++ -g -Wall -std=c++11 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
 nnoremap <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
+
+
+"Conque-GDB configs
+let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
+let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
+let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly
 "
 "GitGutter Configs
 "You can jump between hunks with [c and ]c. You can preview, stage, and undo hunks with <leader>hp, <leader>hs, and <leader>hu respectively.
@@ -181,8 +210,7 @@ autocmd BufWrite *.h,*.cc,*cpp :Autoformat
 "   \   }
 "   \ }
 
-" set background=dark
-
+set background=dark
 
 "C++ highlight config
 let g:cpp_class_scope_highlight = 1
@@ -194,36 +222,13 @@ let c_no_curly_error=1
 "set colorscheme
 colorscheme lucius
 
-
-" UltiSnip Confgis 
+" UltiSnip Confgis """"""""""""""""""""""""""""""""""""""""""""
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-k>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetDirectories=['~/.vim/UltiSnips','UltiSnips']
-
-" SrcExpl Configuration """"""""""""""""""""""""""
-" // Set the height of Source Explorer window
-let g:SrcExpl_winHeight = 8
-
-" // Set 100 ms for refreshing the Source Explorer
-let g:SrcExpl_refreshTime = 100
-
-" // Set "F12" key to jump into the exact definition context
-let g:SrcExpl_jumpKey = "<F12>"
-
-" // Set "Space" key for back from the definition context
-let g:SrcExpl_gobackKey = "<SPACE>"
-
-" // In order to avoid conflicts, the Source Explorer should know what plugins
-" // except itself are using buffers. And you need add their buffer names into
-" // below listaccording to the command ":buffers!"
-let g:SrcExpl_pluginList = [
-        \ "__Tag_List__",
-        \ "_NERD_tree_"
-    \ ]
-
 
 " " If you want :UltiSnipsEdit to split your window.
 " let g:UltiSnipsEditSplit="vertical"
@@ -265,7 +270,6 @@ if 'VIRTUAL_ENV' in os.environ:
   activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
   exec(open(activate_this).read(), dict(__file__=activate_this))
 EOF
-
 " "Vim-Go configs
 " " run :GoBuild or :GoTestCompile based on the go file
 " function! s:build_go_files()
@@ -285,6 +289,8 @@ EOF
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap ]b :bnext<CR>
 nnoremap [b :bprevious<CR>
+nnoremap <F12> <C-]>
+nnoremap <S-F12> <C-W-}>
 " Sets how many lines of history VIM has to remember
 set history=500
 
@@ -313,8 +319,6 @@ nmap <leader><Space><Space> :%s/\s\+$//<cr>
 nmap <leader>w :w!<cr>
 " Tagbar toggle
 nmap <F8> :TagbarToggle<CR>
-"turn on source explorer
-nmap <F10> :SrcExplToggle<CR>
 "open nerd tree
 nmap <F9> :NERDTreeToggle<CR>
 " :W sudo saves the file
