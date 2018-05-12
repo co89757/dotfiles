@@ -12,8 +12,6 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
-"python-syntax option:
-"  :Python3Syntax to use py3 syntax highlighting
 Plugin 'hdima/python-syntax'
 Plugin 'mattn/emmet-vim'
 Plugin 'jiangmiao/auto-pairs'
@@ -29,14 +27,9 @@ Plugin 'Chiel92/vim-autoformat'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-fugitive'
-"Plugin 'vim-scripts/Conque-GDB'
-"Plugin 'fatih/vim-go'
 Plugin 'skywind3000/asyncrun.vim'
 Plugin 'Valloric/YouCompleteMe'
-"Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'vim-airline/vim-airline'
-
-" Track the engine.
 Plugin 'SirVer/ultisnips'
 " Snippets are separated from the engine. Add this if you want them:
 Plugin 'honza/vim-snippets'
@@ -123,8 +116,6 @@ let g:Lf_RootMarkers = ['.project','.root','.git','.svn']
 let g:Lf_CacheDirectory =expand('~/.vim/cache')
 nnoremap <S-P> :LeaderfFunction<CR>
 
-
-
 "AsyncRun configs
 let g:asyncrun_open = 6
 let g:asyncrun_bell = 1 
@@ -132,12 +123,6 @@ let g:asyncrun_rootmarks = ['.svn','.git','.root','Makefile']
 nnoremap <F6> :call asyncrun#quickfix_toggle(6)<CR>
 nnoremap <silent> <S-C-B> :AsyncRun g++ -g -Wall -std=c++11 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
 nnoremap <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
-
-
-"Conque-GDB configs
-let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
-let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
-let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly
 "
 "GitGutter Configs
 "You can jump between hunks with [c and ]c. You can preview, stage, and undo hunks with <leader>hp, <leader>hs, and <leader>hu respectively.
@@ -167,10 +152,15 @@ let g:ale_echo_msg_warning_str='W'
 let g:ale_echo_msg_format='[%linter%] %s [%severity%]'
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_on_insert_leave = 1
+let g:ale_cpp_clangcheck_options='-- -Wall -std=c++11 -x c++'
+let g:ale_cpp_gcc_options ='-Wall -std=c++11'
 let g:airline#extensions#ale#enabled = 1
 hi! clear SpellBad
 hi! clear SpellCap
 hi! clear SpellRare
+hi SpellBad cterm=undercurl ctermfg=red 
+hi SpellCap cterm=undercurl ctermfg=blue
+hi SpellRare cterm=undercurl ctermfg=magenta
 
 "
 "Autoformat configuration
@@ -205,13 +195,7 @@ let c_no_curly_error=1
 colorscheme lucius
 
 
-" CtrlP configuration """""""""""""""""""""""""""""""""""""""""
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrl_working_path_mode = 'ra'
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard' ]
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" UltiSnip Confgis """"""""""""""""""""""""""""""""""""""""""""
+" UltiSnip Confgis 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-k>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
@@ -281,6 +265,7 @@ if 'VIRTUAL_ENV' in os.environ:
   activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
   exec(open(activate_this).read(), dict(__file__=activate_this))
 EOF
+
 " "Vim-Go configs
 " " run :GoBuild or :GoTestCompile based on the go file
 " function! s:build_go_files()
