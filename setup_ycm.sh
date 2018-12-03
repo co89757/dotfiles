@@ -15,6 +15,7 @@ else
 fi
 
 echo "Copying the .ycm_extra_conf.py file to .vim/bundle/YouCompleteMe/"
-cp $EXTRA_CONFIG_FILE ~/.vim/bundle/YouCompleteMe/ && echo "copy complete~"
-
+CFG_FILE_PATH=$HOME/.vim/bundle/YouCompleteMe/$EXTRA_CONFIG_FILE  
+[[ -e $CFG_FILE_PATH ]] && rm $CFG_FILE_PATH
+cp $EXTRA_CONFIG_FILE ~/.vim/bundle/YouCompleteMe/ && echo "copy complete~" || echo "Error: cp errors out"
 echo " == YCM is done setup =="
