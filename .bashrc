@@ -148,6 +148,17 @@ alias ..2='cd ../../'
 alias ..3='cd ../../..'
 alias ..4=
 alias gst='git st'
+
+if hash git ; then
+  git config --global user.name "colin"
+  git config --global user.email "colinlin@pm.me"
+  git config --global alias.co checkout 
+  git config --global alias.ci commit 
+  git config --global alias.st status 
+  git config --global alias.br branch 
+  git config --global alias.hist "log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short" 
+fi
+
 #alias http="python -m SimpleHTTPServer"
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
