@@ -37,6 +37,34 @@ logwarning(){
  printf "${B_YELLOW}[WARN]${NIL} ${YELLOW}${msg}${NIL}\n" $@ 
 }
 
+install_ss(){
+  UBVER=$(echo $(lsb_release -r) | grep '[0-9.]\+' -o )
+  hash ss-server 
+  if [[ $? -eq 0 ]]; then
+    logwarning "ss-server is already installed. exit ..."
+    return
+  fi
+  echo "ubuntu version: $UBVER" 
+  loginfo "==== install shadowsocks-libev now ====="
+  case $UBVER in
+    18.* )
+      loginfo "version is above 18.04, directly pull from apt-get"
+      sudo apt update 
+      sudo apt install shadowsocks-libev simple-obfs 
+      ;;
+    16.04 | 14.04)
+      loginfo "pull from PPA"
+      sudo apt-get install software-properties-common -y
+      sudo add-apt-repository ppa:max-c-lv/shadowsocks-libev -y
+      sudo apt-get update
+      sudo apt install shadowsocks-libev simple-obfs  
+      ;;
+    *) 
+      logwarning "you may need to install ss yourself"
+      ;;
+  esac
+}
+
 if [[ $# -lt 2 ]]; then
 	echo "Usage: <prog> -c|--config <sserver_config>"
 	echo "please specify JSON config file path for sserver"
@@ -48,9 +76,10 @@ lsb_release -a
 #1. check pre-requisites 
 echo "========= Start shadowsocks-libev setup ====="
 loginfo "[step0] update repository with sudo apt update "
-sudo apt-get update 
 hash pip 2> /dev/null || (echo "pip is missing. install it" && sudo apt-get install python-pip )
-hash ss-server && echo "ss-server is already installed" || (echo "shadowsocks-libev is not installed. installing it" && sudo apt install shadowsocks-libev simple-obfs)
+#install ss libev 
+install_ss 
+
 SSCONFIGFILE="N/A" 
 echo "----- get config ----"
 while [[ $# -gt 1 ]]; do
@@ -67,7 +96,7 @@ while [[ $# -gt 1 ]]; do
 	esac
 	shift
 done
- 
+   
 loginfo "ssserver config file is given by $SSCONFIGFILE"
 if [[ ! -e $SSCONFIGFILE ]]; then
 	echo "$SSCONFIGFILE is not found. please check if it exists"
@@ -89,9 +118,9 @@ fi
 
 echo "Installation complete, sanity check now"
 
-sspid=$(pgrep ssserver)
+sspid=$(pgrep ss-server)
 if [[ -z $sspid ]]; then
-  echo "found no ssserver process, the server startup may be unsuccessful"
+  echo "found no ss-server process, the server startup may be unsuccessful"
 else
   echo "shadowsocks server successfully starts, PID: $sspid"
 fi
