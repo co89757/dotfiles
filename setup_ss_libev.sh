@@ -38,41 +38,66 @@ logwarning(){
 }
 
 install_ss(){
-  UBVER=$(echo $(lsb_release -r) | grep '[0-9.]\+' -o )
+   declare -A sysinfo 
+   sysinfo_tmp=./.sysinfo.tmp 
+   cat /etc/*-release > $sysinfo_tmp 
+   while IFS='=' read -r key val; do
+     sysinfo[$key]=$val 
+   done < $sysinfo_tmp 
+   rm $sysinfo_tmp 
   hash ss-server 
   if [[ $? -eq 0 ]]; then
     logwarning "ss-server is already installed. exit ..."
     return
   fi
-  echo "ubuntu version: $UBVER" 
+  distr_id="${sysinfo['DISTRIB_ID']}"
+  distr_version="${sysinfo['DISTRIB_RELEASE']}" 
+  pretty_name="${sysinfo['PRETTY_NAME']}"
+  loginfo "system info: [$distr_id]-[$distr_version]"
   loginfo "==== install shadowsocks-libev now ====="
-  case $UBVER in
-    18.* )
-      loginfo "version is above 18.04, directly pull from apt-get"
-      sudo apt update 
+  if [[ ${distr_id,,} = 'ubuntu'  ]]; then
+    #ubuntu
+    if [[ $distr_version > '16.10' ]]; then
+      sudo apt update
       sudo apt install shadowsocks-libev simple-obfs 
-      ;;
-    16.04 | 14.04)
-      loginfo "pull from PPA"
+    elif [[ $distr_version > '14.03'  ]];then 
+      loginfo "ubuntu $distr_version needs to install ss from PPA"
       sudo apt-get install software-properties-common -y
       sudo add-apt-repository ppa:max-c-lv/shadowsocks-libev -y
       sudo apt-get update
-      sudo apt install shadowsocks-libev simple-obfs  
-      ;;
-    *) 
-      logwarning "you may need to install ss yourself"
-      ;;
-  esac
+      sudo apt install shadowsocks-libev simple-obfs
+    else
+      logerr "unsupported platform! please refer to the instruction on shadowsocks-libev github page"
+      exit 1
+    fi
+
+  elif [[ ${distr_id,,} = 'debian' ]]; then
+    if [[ $distr_version = '8'  ]]; then
+      sudo sh -c 'printf "deb http://deb.debian.org/debian jessie-backports main\n" > /etc/apt/sources.list.d/jessie-backports.list'
+      sudo sh -c 'printf "deb http://deb.debian.org/debian jessie-backports-sloppy main" >> /etc/apt/sources.list.d/jessie-backports.list'
+      sudo apt update
+      sudo apt -t jessie-backports-sloppy install shadowsocks-libev 
+    elif [[ $distr_version = '9' ]]; then
+      sudo sh -c 'printf "deb http://deb.debian.org/debian stretch-backports main" > /etc/apt/sources.list.d/stretch-backports.list'
+      sudo apt update
+      sudo apt -t stretch-backports install shadowsocks-libev
+    else
+      logerr "unsupported platform! please refer to the instruction on shadowsocks-libev github page"
+      exit 1
+    fi
+  else
+    logerr "unsupported platform! please refer to the instruction on shadowsocks-libev github page"
+    exit 1
+  fi
 }
+
 
 if [[ $# -lt 2 ]]; then
 	echo "Usage: <prog> -c|--config <sserver_config>"
-	echo "please specify JSON config file path for sserver"
+	echo "please specify JSON config file path for sserver, a sample file is available at ./ss-libev.config.json  "
   exit 1 
 fi
 
-loginfo "This script is tested on ubuntu 18.04. your system info is:" 
-lsb_release -a 
 #1. check pre-requisites 
 echo "========= Start shadowsocks-libev setup ====="
 loginfo "[step0] update repository with sudo apt update "
@@ -87,7 +112,7 @@ while [[ $# -gt 1 ]]; do
 	case $key in
 		-c | --config )
 			SSCONFIGFILE="$2"
-			echo "config file set to $2"
+			loginfo "config file set to $2"
 			shift
 			;;
 		*)
