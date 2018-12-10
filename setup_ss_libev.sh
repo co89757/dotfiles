@@ -89,7 +89,7 @@ fi
 
 echo "Installation complete, sanity check now"
 
-sspid=$(pgrep ssserver)
+sspid=$(pgrep ss-server)
 if [[ -z $sspid ]]; then
   echo "found no ssserver process, the server startup may be unsuccessful"
 else
