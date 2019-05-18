@@ -1,9 +1,9 @@
 <scheme name="kalium" version="142" parent_scheme="Darcula">
   <metaInfo>
-    <property name="created">2019-05-18T00:44:20</property>
+    <property name="created">2019-05-18T00:56:55</property>
     <property name="ide">Idea</property>
     <property name="ideVersion">2018.3.0.0</property>
-    <property name="modified">2019-05-18T00:44:36</property>
+    <property name="modified">2019-05-18T00:57:22</property>
     <property name="originalScheme">kalium</property>
   </metaInfo>
   <attributes>
@@ -82,7 +82,7 @@
     </option>
     <option name="DEFAULT_STRING">
       <value>
-        <option name="FOREGROUND" value="875e06" />
+        <option name="FOREGROUND" value="af8a16" />
       </value>
     </option>
     <option name="INSTANCE_FINAL_FIELD_ATTRIBUTES">
