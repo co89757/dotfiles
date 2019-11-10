@@ -55,16 +55,21 @@ if ! hash curl >/dev/null 2>&1; then
 fi
 
 show_help() {
-  echo "
+  echo -e "
 Script to send a email with optional attachments. 
-Pre-requisite: you need to put the sendgrid api key in the environment variable SENDGRID_APIKEY 
+${GREEN}Pre-requisite${NIL}: you need to put the sendgrid api key in the environment variable SENDGRID_APIKEY 
 
-USAGE: ${0##*/} -t|--to TO_EMAIL  -f|--from FROM_EMAIL [--sendas NAME]  [-A|--attachments ATTACHMENTS] [-s|--title TITLE ]  -B|--content CONTENT_FILE [--dryrun]
+${GREEN}USAGE${NIL}: ${0##*/} -t|--to TO_EMAIL  -f|--from FROM_EMAIL [--sendas NAME]  [-A|--attachments ATTACHMENTS] [-s|--title TITLE ]  -B|--content CONTENT_FILE [--dryrun]
       Optional Flags:
          --sendas:    the name to display as sender
          -A|--attachments:  comma-separated file-paths to attach
          --dryrun:  dryrun mode, only writes the message payload without actually sending
          -s|--title:  email subject
+${YELLOW}EXAMPLES:${NIL}
+  # send a normal email w/o attachment 
+  ${0##*/} -t destination@email.com -f me@email.com -s \"I am email title\" -B email_content_file.html 
+  # send an email with two attachments 
+  ${0##*/} -t dest@email.com -f me@email.com -s \"two attachments\" -B email-content.html -A path/to/attachment1,path/to/attachment2 --sendas \"James Bond\" 
   "
 }
 
