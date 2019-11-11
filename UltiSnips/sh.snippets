@@ -12,31 +12,73 @@ debugme() {
 }
 endsnippet
 
+snippet sysinfo "store system info in an associated array sysinfo" b
+declare -A sysinfo 
+sysinfo_tmp=./.sysinfo.tmp 
+cat /etc/*-release > $sysinfo_tmp 
+while IFS='=' read -r key val; do
+  sysinfo[$key]=$val 
+done < $sysinfo_tmp 
+rm $sysinfo_tmp 
+endsnippet
+
+snippet hash "use hash to check existence of a cmd" b
+if ! hash $1 > /dev/null 2>&1; then 
+  echo "$1 command not found"
+	exit 1
+fi 
+endsnippet	
+
 snippet color "coloring console output" b
 RED="\e[31m"
-B_RED="\e[1;31m"
+B_RED="\e[j1;31m"
 GREEN="\e[32m"
 B_GREEN="\e[1;32m"
 YELLOW="\e[33m"
 B_YELLOW="\e[1;33m"
+BLUE="\e[34m"
+B_BLUE="\e[1;34m"
 NIL="\e[0m"
+
+logdebug(){
+ local msg=\${1:-}
+ shift 
+ printf "${B_BLUE}[INFO]${NIL} ${BLUE}${msg}${NIL}\n" "$@" 
+}
 
 loginfo(){
  local msg=\${1:-}
  shift 
- printf "${B_GREEN}[INFO]${NIL} ${GREEN}${msg}${NIL}\n" $@ 
+ printf "${B_GREEN}[INFO]${NIL} ${GREEN}${msg}${NIL}\n" "$@" 
 }
 
 logerr(){
  local msg=\${1:-}
  shift 
- printf "${B_RED}[ERROR]${NIL} ${RED}${msg}${NIL}\n" $@ 
+ printf "${B_RED}[ERROR]${NIL} ${RED}${msg}${NIL}\n" "$@" 
+}
+
+logfatal(){
+ local msg=\${1:-}
+ shift 
+ printf "${B_RED}[FATAL]${NIL} ${RED}${msg}${NIL}\n" "$@" 
+ exit 1
 }
 
 logwarning(){
  local msg=\${1:-}
  shift 
- printf "${B_YELLOW}[WARN]${NIL} ${YELLOW}${msg}${NIL}\n" $@ 
+ printf "${B_YELLOW}[WARN]${NIL} ${YELLOW}${msg}${NIL}\n" "$@" 
 }
 
+endsnippet
+
+snippet strsplit "split a string to array" b
+IFS=${1:,} read -r -a ${2:array_var} <<< ${3:strvar}
+endsnippet
+
+snippet fora "loop thru array" b
+for ${1:e} in "\${${2:array_var}[@]}"; do 
+  ${3}
+done
 endsnippet
