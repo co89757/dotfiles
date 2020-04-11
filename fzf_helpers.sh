@@ -1,6 +1,6 @@
 export FZF_DEFAULT_OPTS = "--border --height 40%"
-# fd - cd to selected directory
-fd() {
+# cfd - cd to selected directory
+cfd() {
   local dir
   dir=$(find ${1:-.} -path '*/\.*' -prune \
                   -o -type d -print 2> /dev/null | fzf +m) &&
