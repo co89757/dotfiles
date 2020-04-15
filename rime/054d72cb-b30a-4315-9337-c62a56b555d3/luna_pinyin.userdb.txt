@@ -1,0 +1,84 @@
+# Rime user dictionary
+#@/db_name	luna_pinyin.userdb
+#@/db_type	userdb
+#@/rime_version	1.2.9
+#@/tick	91
+#@/user_id	054d72cb-b30a-4315-9337-c62a56b555d3
+a 	啊	c=0 d=0.178382 t=91
+a da kai fu jian 	啊打開附件	c=1 d=0.927743 t=91
+a dao fu 	阿道夫	c=1 d=1.06895 t=91
+a dao fu jiu 	阿道夫就	c=1 d=0.99005 t=91
+a diao jie fa 	啊調節閥	c=1 d=0.99005 t=91
+a ke da 	阿克達	c=1 d=0.923116 t=91
+a ke la 	阿克拉	c=0 d=0.0904837 t=91
+a ke la diao jie fa 	阿克拉調節閥	c=1 d=0.909373 t=91
+ai de 	愛的	c=1 d=1.20851 t=91
+ai de fa diao kong jiu 	愛的發雕空就	c=1 d=0.882497 t=91
+ai de kai fa 	愛的開發	c=1 d=0.918512 t=91
+ai de kao ji fa 	愛的考績法	c=1 d=0.980199 t=91
+ai ke 	崖刻	c=2 d=2.08409 t=91
+ai ke da fu 	崖刻大幅	c=2 d=1.96546 t=91
+ai ke da jia 	崖刻大家	c=1 d=0.97531 t=91
+ai ke fu jin 	崖刻附近	c=1 d=1 t=91
+ai ke ji fen 	崖刻積分	c=4 d=3.53121 t=91
+ai ke jing dong fang 	崖刻京東方	c=1 d=0.985112 t=91
+chen yi xun 	陳奕迅	c=1 d=0.895834 t=91
+da 	打	c=0 d=0.0951229 t=91
+da fei ji 	打飛機	c=2 d=2.0192 t=91
+da fu 	大幅	c=5 d=4.83382 t=91
+da jia 	大家	c=4 d=3.85368 t=91
+da kai 	打開	c=0 d=0.097531 t=91
+da kai fang 	大開放	c=2 d=1.88839 t=91
+da kai fu jian 	打開附件	c=1 d=0.980199 t=91
+da kai ji fen 	打開積分	c=3 d=2.72096 t=91
+dan bian z bian huan 	單邊z變換	c=1 d=1 t=91
+dao 	叨	c=1 d=0.970446 t=91
+de 	的	c=9 d=7.73231 t=91
+diao jie fa 	調節閥	c=0 d=0.27556 t=91
+diao kong 	雕空	c=2 d=2.05999 t=91
+diao kong jiu 	雕空就	c=4 d=3.8196 t=91
+fa 	發	c=0 d=0.174745 t=91
+fa da fu 	發大幅	c=1 d=1 t=91
+fei ping heng 	非平衡	c=1 d=0.97531 t=91
+feng kuang 	瘋狂	c=1 d=0.965605 t=91
+fu he 	符合	c=1 d=1 t=91
+fu jin 	附近	c=0 d=0.0995012 t=91
+gan ci la 	乾茨臘	c=0 d=0.0946485 t=91
+gan ci la kuai di fei 	乾茨臘快遞費	c=1 d=0.951229 t=91
+gang cai 	剛纔	c=3 d=3.06479 t=91
+gang cai da fu 	剛纔大幅	c=1 d=0.941765 t=91
+gang cai da li kai fu 	剛纔打李開復	c=1 d=0.955997 t=91
+gong chan dang 	共產黨	c=1 d=1.08236 t=91
+gong chan dang li kai fu 	共產黨李開復	c=1 d=0.946485 t=91
+ji fen 	積分	c=0 d=0.196062 t=91
+jian kang 	健康	c=1 d=0.985112 t=91
+jing dong fang 	京東方	c=0 d=0.0980199 t=91
+jiu 	就	c=1 d=1.09099 t=91
+kai fa 	開發	c=0 d=0.0913931 t=91
+kan 	看	c=0 d=0.099005 t=91
+kan diao jie fa 	看調節閥	c=2 d=1.97521 t=91
+kang jing dian 	抗靜電	c=0 d=0.0985112 t=91
+kao ji fa 	考績法	c=1 d=1.06797 t=91
+kao ke ji 	拷克機	c=1 d=1 t=91
+ke jia yan 	柯佳嬿	c=1 d=0.960789 t=91
+kuai di fei 	快遞費	c=0 d=0.0946485 t=91
+la kai 	拉開	c=0 d=0.0980199 t=91
+la kai da fu 	拉開大幅	c=1 d=0.985112 t=91
+li kai fu 	李開復	c=0 d=0.189299 t=91
+meng xiang 	夢想	c=0 d=0.0980199 t=91
+pei he 	配合	c=0 d=0.097531 t=91
+pei he da fei ji 	配合打飛機	c=1 d=0.980199 t=91
+pi hua dao kuan 	批砉導窾	c=1 d=0.99005 t=91
+ru guo 	如果	c=1 d=0.913931 t=91
+she zhi 	設置	c=2 d=1.97045 t=91
+shu ru 	輸入	c=1 d=0.946485 t=91
+shu ru fa 	輸入法	c=2 d=1.96062 t=91
+tao yuan 	桃園	c=1 d=0.965605 t=91
+wan er 	玩兒	c=0 d=0.0985112 t=91
+wan er kang jing dian 	玩兒抗靜電	c=1 d=0.99005 t=91
+wu fa 	無法	c=1 d=0.941765 t=91
+yi fen liu shui 	一分流水	c=1 d=0.891366 t=91
+yi ge ren 	一個人	c=1 d=0.980199 t=91
+you ge 	有個	c=0 d=0.0980199 t=91
+you ge meng xiang 	有個夢想	c=1 d=0.985112 t=91
+zhou jie lun 	周杰倫	c=1 d=0.970446 t=91
