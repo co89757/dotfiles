@@ -149,9 +149,11 @@ alias ..3='cd ../../..'
 alias ..4=
 alias gst='git st'
 
+# Git shorthands
 if hash git ; then
-  git config --global user.name "colin"
-  git config --global user.email "colinlin@pm.me"
+  git config --global user.name $USER
+  # CHANGE TO YOUR EMAIL
+  git config --global user.email "MY_EMAIL@xxx.com"
   git config --global alias.co checkout 
   git config --global alias.ci commit 
   git config --global alias.st status 
@@ -247,13 +249,4 @@ export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 alias df="df -Tha --total"
-# user-defined environment variables 
-export PATH=/opt/local/bin:$PATH:/usr/local/go/bin:$GOPATH/bin
-# export GOPATH=$HOME/dev/go
-# export GOROOT="/usr/local/go"
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 ## python virtual env home directory 
-# swtich env: workon ENV 
-# export WORKON_HOME=~/PyEnvs
-# eval $(thefuck --alias fuck)
