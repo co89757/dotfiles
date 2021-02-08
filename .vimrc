@@ -12,25 +12,38 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
-"python-syntax option:
 "  :Python3Syntax to use py3 syntax highlighting
 Plugin 'hdima/python-syntax'
 Plugin 'mattn/emmet-vim'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'majutsushi/tagbar'
-Plugin 'scrooloose/syntastic'
+Plugin 'ludovicchabant/vim-gutentags'
+Plugin 'w0rp/ale'
+Plugin 'Yggdroot/LeaderF'
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
+"Custom text objects
+"new text-objs:
+"  i, and a, : parameter object
+"  ii and ai : identation object e.g vii dii cii 
+"  if and af : function object e.g. vif dif cif on functions
+"  new text-objs:
+"    i, and a, : parameter object
+"    ii and ai : identation object e.g vii dii cii 
+"    if and af : function object e.g. vif dif cif on functions
+Plugin 'kana/vim-textobj-user'
+Plugin 'kana/vim-textobj-indent'
+Plugin 'kana/vim-textobj-syntax'
+Plugin 'kana/vim-textobj-function'
+Plugin 'sgur/vim-textobj-parameter'
+
 Plugin 'scrooloose/nerdtree'
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'wesleyche/SrcExpl'
 Plugin 'Chiel92/vim-autoformat'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-fugitive'
-Plugin 'vim-scripts/Conque-GDB'
-Plugin 'fatih/vim-go'
+Plugin 'skywind3000/asyncrun.vim'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'vim-airline/vim-airline'
 
 " Track the engine.
@@ -99,40 +112,91 @@ filetype plugin indent on    " required
 
 "Vim Airline Configs
 let g:airline#extensions#tabline#enabled = 1
+"Tagbar configs
+let g:tagbar_type_dosini = {
+ \ 'ctagstype' : 'properties',
+ \ 'kinds' : [
+   \ 's:Sections',
+   \ 'f:Fields'
+   \],
+  \ 'sort' : 0
+\ }
 
 "NERD Commenter configs
 let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
 let g:NERDDefaultAlign = 'left'
-let g:NERDCompactSexyComs = 1 
+let g:NERDCompactSexyComs = 1
 let g:NERDSpaceDelims = 1
 
 "YOU_COMPLETE_ME Configs
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py'
+let g:ycm_show_diagnostics_ui = 0
+let g:ycm_error_symbol = 'X'
+let g:ycm_warning_symbol = '!'
 let g:ycm_collect_identifiers_from_tags_files = 1
 
-"Conque-GDB configs
-let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
-let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
-let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly
-"
+"LeaderF configs
+let g:Lf_ShortcutF = '<C-P>'
+let g:Lf_RootMarkers = ['.project','.root','.git','.svn']
+let g:Lf_CacheDirectory =expand('~/.vim/cache')
+nnoremap <S-P> :LeaderfFunction<CR>
+nnoremap <S-T> :LeaderfBuffer<CR>
+
+"AsyncRun configs
+let g:asyncrun_open = 6
+let g:asyncrun_bell = 1 
+let g:asyncrun_rootmarks = ['.svn','.git','.root','Makefile']
+nnoremap <F6> :call asyncrun#quickfix_toggle(6)<CR>
+augroup asyncruns
+  autocmd FileType cpp  nnoremap <buffer> <silent> <S-C-B> :AsyncRun g++ -g -Wall -std=c++11 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
+  autocmd FileType python nnoremap <buffer> <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR)  python3 "$(VIM_FILEPATH)" <cr>
+  autocmd FileType cpp  nnoremap <buffer> <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
+  autocmd FileType rust nnoremap <buffer> <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) cargo build && cargo run <CR>
+augroup END
+
 "GitGutter Configs
 "You can jump between hunks with [c and ]c. You can preview, stage, and undo hunks with <leader>hp, <leader>hs, and <leader>hu respectively.
 nnoremap <Leader>ha <Plug>GitGutterStageHunk
-"
-"Syntastic configs
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_cpp_compiler="g++"
-let g:syntastic_cpp_compiler_options="-std=c++11 -Wall -Wextra"
+" "GutenTags configs
+let g:gutentags_project_root = ['.root','.svn','.git','.project']
+let g:gutentags_ctags_tagfile = '.tags'
+let s:vim_tags =expand('~/.cache/tags')
+let g:gutentags_cache_dir = s:vim_tags
+"
+
+" detect ~/.cache/tags create if not exist
+if !isdirectory(s:vim_tags)
+   silent! call mkdir(s:vim_tags, 'p')
+endif
+
+"
+"ALE configs
+let g:ale_completion_delay = 500
+let g:ale_echo_delay = 20
+let g:ale_sign_error = 'X'
+let g:ale_sign_warning = '!'
+let g:ale_echo_msg_error_str='E'
+let g:ale_sign_column_always = 0
+let g:ale_echo_msg_warning_str='W'
+let g:ale_echo_msg_format='[%linter%] %s [%severity%]'
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_lint_on_insert_leave = 1
+let g:ale_cpp_clangcheck_options='-- -Wall -std=c++11 -x c++'
+let g:ale_cpp_gcc_options ='-Wall -std=c++11'
+let g:airline#extensions#ale#enabled = 1
+hi! clear SpellBad
+hi! clear SpellCap
+hi! clear SpellRare
+hi SpellBad cterm=undercurl ctermfg=red 
+hi SpellCap cterm=undercurl ctermfg=blue
+hi SpellRare cterm=undercurl ctermfg=magenta
+
 "
 "Autoformat configuration
 noremap <F3> :Autoformat<CR>
-autocmd BufWrite *.h,*.cc,*cpp :Autoformat
+autocmd BufWrite *.h,*.cc,*cpp,*.py :Autoformat
 "Papercolor theme conifg
 " let g:PaperColor_Theme_Options = {
 "   \   'language': {
@@ -148,8 +212,7 @@ autocmd BufWrite *.h,*.cc,*cpp :Autoformat
 "   \   }
 "   \ }
 
-" set background=dark
-
+set background=dark
 
 "C++ highlight config
 let g:cpp_class_scope_highlight = 1
@@ -159,15 +222,8 @@ let g:cpp_experimental_template_highlight = 1
 let c_no_curly_error=1
 
 "set colorscheme
-"colorscheme lucius
+colorscheme lucius
 
-
-" CtrlP configuration """""""""""""""""""""""""""""""""""""""""
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrl_working_path_mode = 'ra'
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard' ]
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " UltiSnip Confgis """"""""""""""""""""""""""""""""""""""""""""
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-k>"
@@ -175,28 +231,6 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetDirectories=['~/.vim/UltiSnips','UltiSnips']
-
-" SrcExpl Configuration """"""""""""""""""""""""""
-" // Set the height of Source Explorer window
-let g:SrcExpl_winHeight = 8
-
-" // Set 100 ms for refreshing the Source Explorer
-let g:SrcExpl_refreshTime = 100
-
-" // Set "F12" key to jump into the exact definition context
-let g:SrcExpl_jumpKey = "<F12>"
-
-" // Set "Space" key for back from the definition context
-let g:SrcExpl_gobackKey = "<SPACE>"
-
-" // In order to avoid conflicts, the Source Explorer should know what plugins
-" // except itself are using buffers. And you need add their buffer names into
-" // below listaccording to the command ":buffers!"
-let g:SrcExpl_pluginList = [
-        \ "__Tag_List__",
-        \ "_NERD_tree_"
-    \ ]
-
 
 " " If you want :UltiSnipsEdit to split your window.
 " let g:UltiSnipsEditSplit="vertical"
@@ -223,11 +257,12 @@ let g:rbpt_colorpairs = [
 let g:rbpt_max = 16
 let g:rbpt_loadcmd_toggle=0
 
-autocmd VimEnter * RainbowParenthesesToggle
-autocmd Syntax * RainbowParenthesesLoadRound
-autocmd Syntax * RainbowParenthesesLoadSquare
-autocmd Syntax * RainbowParenthesesLoadBraces
-
+augroup rainbowparens
+  autocmd VimEnter * RainbowParenthesesToggle
+  autocmd Syntax * RainbowParenthesesLoadRound
+  autocmd Syntax * RainbowParenthesesLoadSquare
+  autocmd Syntax * RainbowParenthesesLoadBraces
+augroup END
 nnoremap <F7> :RainbowParenthesesToggle<CR>
 "python with virtualenv support
 python3 << EOF
@@ -238,26 +273,32 @@ if 'VIRTUAL_ENV' in os.environ:
   activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
   exec(open(activate_this).read(), dict(__file__=activate_this))
 EOF
-"Vim-Go configs
-" run :GoBuild or :GoTestCompile based on the go file
-function! s:build_go_files()
-  let l:file = expand('%')
-  if l:file =~# '^\f\+_test\.go$'
-    call go#test#Test(0, 1)
-  elseif l:file =~# '^\f\+\.go$'
-    call go#cmd#Build(0)
-  endif
-endfunction
-
-autocmd FileType go nnoremap <leader>b :<C-u>call <SID>build_go_files()<CR>
-autocmd FileType go nnoremap <leader>r :GoRun<CR>
-autocmd FileType go nnoremap <leader>t :GoTest<CR>
-nnoremap ]b :bnext<CR>
-nnoremap [b :bprevious<CR>
+" "Vim-Go configs
+" " run :GoBuild or :GoTestCompile based on the go file
+" function! s:build_go_files()
+"   let l:file = expand('%')
+"   if l:file =~# '^\f\+_test\.go$'
+"     call go#test#Test(0, 1)
+"   elseif l:file =~# '^\f\+\.go$'
+"     call go#cmd#Build(0)
+"   endif
+" endfunction
+"
+" autocmd FileType go nnoremap <leader>b :<C-u>call <SID>build_go_files()<CR>
+" autocmd FileType go nnoremap <leader>r :GoRun<CR>
+" autocmd FileType go nnoremap <leader>t :GoTest<CR>
+"
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap ]b :bnext<CR>
+nnoremap [b :bprevious<CR>
+nnoremap <F12> <C-]>
+nnoremap <S-F12> <C-W-}>
 " Sets how many lines of history VIM has to remember
 set history=500
+
+"Configuration for tags file
+set tags=./.tags;,.tags
 
 " Enable filetype plugins
 filetype plugin on
@@ -271,9 +312,12 @@ set autoread
 "COLIN change leader to space
 let mapleader = ","
 let g:mapleader = ","
-
+let maplocalleader = "\\"
+nnoremap <leader>ev :e ~/.vimrc <CR>
+iabbrev @@ colinlin@pm.me 
 " Surround current word with quotes
-:nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
+nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
+" delete curent line in insert mode
 imap <C-l> <esc>ddi
 "COLIN-remove trailing spaces on each line
 nmap <leader><Space><Space> :%s/\s\+$//<cr>
@@ -281,14 +325,11 @@ nmap <leader><Space><Space> :%s/\s\+$//<cr>
 nmap <leader>w :w!<cr>
 " Tagbar toggle
 nmap <F8> :TagbarToggle<CR>
-"turn on source explorer
-nmap <F10> :SrcExplToggle<CR>
 "open nerd tree
 nmap <F9> :NERDTreeToggle<CR>
 " :W sudo saves the file
 " (useful for handling the permission-denied error)
 command W w !sudo tee % > /dev/null
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -448,7 +489,7 @@ map <C-h> <C-W>h
 map <C-l> <C-W>l
 
 " Close the current buffer
-map <leader>bd :Bclose<cr>
+map <leader>bx :Bclose<cr>
 
 " Close all the buffers
 map <leader>ba :bufdo bd<cr>
@@ -524,8 +565,10 @@ func! DeleteTrailingWS()
   %s/\s\+$//ge
   exe "normal `z"
 endfunc
-autocmd BufWrite *.py :call DeleteTrailingWS()
-autocmd BufWrite *.coffee :call DeleteTrailingWS()
+augroup delTrailingGroup
+  autocmd BufWrite *.py :call DeleteTrailingWS()
+  autocmd BufWrite *.coffee :call DeleteTrailingWS()
+augroup END
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -615,7 +658,21 @@ function! VisualSelection(direction, extra_filter) range
     let @/ = l:pattern
     let @" = l:saved_reg
 endfunction
-
+"show all snippets available for current buffer
+function! GetAllSnippets()
+  call UltiSnips#SnippetsInCurrentScope(1)
+  let list = []
+  for [key, info] in items(g:current_ulti_dict_info)
+    let parts = split(info.location, ':')
+    call add(list, {
+      \"key": key,
+      \"path": parts[0],
+      \"linenr": parts[1],
+      \"description": info.description,
+      \})
+  endfor
+  return list
+endfunction
 
 " Returns true if paste mode is enabled
 function! HasPaste()
@@ -645,3 +702,6 @@ function! <SID>BufcloseCloseIt()
      execute("bdelete! ".l:currentBufNum)
    endif
 endfunction
+
+command! WipeReg for i in range(34,122) | silent! call setreg(nr2char(i),[]) | endfor
+autocmd VimEnter * WipeReg
