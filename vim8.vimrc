@@ -12,13 +12,11 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
-"  :Python3Syntax to use py3 syntax highlighting
-Plugin 'hdima/python-syntax'
 Plugin 'mattn/emmet-vim'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'majutsushi/tagbar'
-Plugin 'ludovicchabant/vim-gutentags'
-Plugin 'w0rp/ale'
+" Plugin 'ludovicchabant/vim-gutentags'
+" Plugin 'w0rp/ale'
 Plugin 'Yggdroot/LeaderF'
 "Custom text objects
 "new text-objs:
@@ -39,15 +37,13 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'Chiel92/vim-autoformat'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'airblade/vim-gitgutter'
+" Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-fugitive'
-"Plugin 'vim-scripts/Conque-GDB'
-"Plugin 'fatih/vim-go'
+"Plugin 'fatih/vim-go'  "Optional for go dev
 Plugin 'skywind3000/asyncrun.vim'
-Plugin 'Valloric/YouCompleteMe'
+" Plugin 'Valloric/YouCompleteMe' "Optional heavyweight plugin for cpp dev. 
 "Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline' 
 
 " Track the engine.
 Plugin 'SirVer/ultisnips'
@@ -124,11 +120,11 @@ let g:NERDCompactSexyComs = 1
 let g:NERDSpaceDelims = 1
 
 "YOU_COMPLETE_ME Configs
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py'
-let g:ycm_show_diagnostics_ui = 0
-let g:ycm_error_symbol = 'X'
-let g:ycm_warning_symbol = '!'
-let g:ycm_collect_identifiers_from_tags_files = 1
+" let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py'
+" let g:ycm_show_diagnostics_ui = 0
+" let g:ycm_error_symbol = 'X'
+" let g:ycm_warning_symbol = '!'
+" let g:ycm_collect_identifiers_from_tags_files = 1
 
 "LeaderF configs
 let g:Lf_ShortcutF = '<C-P>'
@@ -148,15 +144,6 @@ autocmd FileType cpp  nnoremap <buffer> <silent> <S-C-B> :AsyncRun g++ -g -Wall 
 autocmd FileType python nnoremap <buffer> <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR)  python3 "$(VIM_FILEPATH)" <cr>
 autocmd FileType cpp  nnoremap <buffer> <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
 
-
-"Conque-GDB configs
-let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
-let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
-let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly
-"
-"GitGutter Configs
-"You can jump between hunks with [c and ]c. You can preview, stage, and undo hunks with <leader>hp, <leader>hs, and <leader>hu respectively.
-nnoremap <Leader>ha <Plug>GitGutterStageHunk
 
 " "GutenTags configs
 let g:gutentags_project_root = ['.root','.svn','.git','.project']
@@ -213,13 +200,6 @@ autocmd BufWrite *.h,*.cc,*cpp,*.py :Autoformat
 
 set background=dark
 
-"C++ highlight config
-let g:cpp_class_scope_highlight = 1
-let g:cpp_member_variable_highlight = 1
-let g:cpp_class_decl_highlight = 1
-let g:cpp_experimental_template_highlight = 1
-let c_no_curly_error=1
-
 "set colorscheme
 colorscheme lucius
 
@@ -262,15 +242,17 @@ autocmd Syntax * RainbowParenthesesLoadSquare
 autocmd Syntax * RainbowParenthesesLoadBraces
 
 nnoremap <F7> :RainbowParenthesesToggle<CR>
-"python with virtualenv support
-python3 << EOF
-import os
-import sys
-if 'VIRTUAL_ENV' in os.environ:
-  project_base_dir = os.environ['VIRTUAL_ENV']
-  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-  exec(open(activate_this).read(), dict(__file__=activate_this))
-EOF
+" "python with virtualenv support
+" python3 << EOF
+" import os
+" import sys
+" if 'VIRTUAL_ENV' in os.environ:
+"   project_base_dir = os.environ['VIRTUAL_ENV']
+"   activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+"   exec(open(activate_this).read(), dict(__file__=activate_this))
+" EOF
+
+
 " "Vim-Go configs
 " " run :GoBuild or :GoTestCompile based on the go file
 " function! s:build_go_files()
@@ -562,7 +544,7 @@ func! DeleteTrailingWS()
   exe "normal `z"
 endfunc
 autocmd BufWrite *.py :call DeleteTrailingWS()
-autocmd BufWrite *.coffee :call DeleteTrailingWS()
+autocmd BufWrite *.js :call DeleteTrailingWS()
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -570,13 +552,13 @@ autocmd BufWrite *.coffee :call DeleteTrailingWS()
 "    requires ag.vim - it's much better than vimgrep/grep
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " When you press gv you Ag after the selected text
-vnoremap <silent> gv :call VisualSelection('gv', '')<CR>
+" vnoremap <silent> gv :call VisualSelection('gv', '')<CR>
 
 " Open Ag and put the cursor in the right position
-map <leader>g :Ag
+" map <leader>g :Ag
 
 " When you press <leader>r you can search and replace the selected text
-vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
+" vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
 
 " Do :help cope if you are unsure what cope is. It's super useful!
 "
@@ -589,10 +571,10 @@ vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
 " To go to the previous search results do:
 "   <leader>p
 "
-map <leader>cc :botright cope<cr>
-map <leader>co ggVGy:tabnew<cr>:set syntax=qf<cr>pgg
-map <leader>n :cn<cr>
-map <leader>p :cp<cr>
+" map <leader>cc :botright cope<cr>
+" map <leader>co ggVGy:tabnew<cr>:set syntax=qf<cr>pgg
+" map <leader>n :cn<cr>
+" map <leader>p :cp<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

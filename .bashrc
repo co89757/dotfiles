@@ -173,11 +173,11 @@ if hash git; then
     git config --global alias.hist "log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short"
 fi
 
-#alias http="python -m SimpleHTTPServer"
+
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-alias rsync='rsync -anvr'
+alias rsync='rsync -anvP'
 mcd() { mkdir -p "$1" && cd "$1"; }
 xtract() {
     if [ -f $1 ]; then
@@ -204,9 +204,7 @@ qtex() {
         pdflatex "$1".tex
     fi
 }
-mdview() {
-    markdown "$1" | lynx -stdin
-}
+
 newbr() {
     if [[ $# -ne 1 ]]; then
         echo "usage: newbr <branch_name>"
@@ -222,17 +220,14 @@ firstpush() {
     git push --set-upstream origin ${bname}
 }
 
-alias py3='python3.6'
-alias prp='pipenv run python'
-alias prp3='pipenv run python3'
 ### Git aliases ####
-alias gadd='git add'
-alias gst='git status -s'
-alias gpush='git push'
-alias gpull='git pull'
-alias gci='git commit'
-alias gl='git log --pretty=oneline'
-alias gb='git branch'
+# alias gadd='git add'
+# alias gst='git status -s'
+# alias gpush='git push'
+# alias gpull='git pull'
+# alias gci='git commit'
+# alias gl='git log --pretty=oneline'
+# alias gb='git branch'
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
@@ -269,21 +264,18 @@ alias df="df -Tha --total"
 export PATH=/opt/local/bin:$PATH
 # export GOPATH=$HOME/dev/go
 # export GOROOT="/usr/local/go"
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-## python virtual env home directory
-# swtich env: workon ENV
-# export WORKON_HOME=~/PyEnvs
-# eval $(thefuck --alias fuck)
+
+
+
 ## python virtual env home directory
 # swtich env: workon ENV
 # export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 # export WORKON_HOME=$HOME/.venvs
 # export VIRTUALENVWRAPPER_VIRTUALENV=$HOME/.local/bin/virtualenv
 # source $HOME/.local/bin/virtualenvwrapper.sh
-# #eval $(thefuck --alias fuck)
-# . $HOME/dev/scripts/z.sh
 # export PIPENV_VENV_IN_PROJECT=1
 
+## Some recommended bash libraries for productivity
+# . $HOME/dev/scripts/z.sh
 # [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 # export FZF_DEFAULT_OPTS='--height 40% --border'
