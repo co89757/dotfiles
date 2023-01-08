@@ -11,7 +11,7 @@ fi
 echo "----- setting up your .vimrc and install Vundle ..."
 
 echo "--- copy vimrc to your home dir ---"
-cp vim8.vimrc ~/
+cp vim8.vimrc ~/.vimrc
 echo "---- installing vundle package manager ---- "
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
