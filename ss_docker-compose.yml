@@ -1,0 +1,10 @@
+services:
+  shadowsocks:
+    image: shadowsocks/shadowsocks-libev
+    ports:
+      - "PORT:8388/tcp"
+      - "PORT:8388/udp"
+    environment:
+      - METHOD=chacha20-ietf-poly1305
+      - PASSWORD=PASSWORD
+    restart: always
