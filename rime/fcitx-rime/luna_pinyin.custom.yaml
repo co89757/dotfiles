@@ -41,8 +41,8 @@ patch:
 
     # 韻母部份
     - derive/^([bpmf])eng$/$1ong/ # meng = mong, ...
-    - derive/([ei])n$/$1ng/ # en => eng, in => ing
-    - derive/([ei])ng$/$1n/ # eng => en, ing => in
+    - derive/([eia])n$/$1ng/ # en => eng, in => ing
+    - derive/([eia])ng$/$1n/ # eng => en, ing => in
 
     # 模糊音定義先於簡拼定義，方可令簡拼支持以上模糊音
     - abbrev/^([a-z]).+$/$1/ # 簡拼（首字母）
