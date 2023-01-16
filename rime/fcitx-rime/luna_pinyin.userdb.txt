@@ -1,0 +1,35 @@
+# Rime user dictionary
+#@/db_name	luna_pinyin
+#@/db_type	userdb
+#@/rime_version	1.7.3
+#@/tick	32
+#@/user_id	ca8a8291-70b3-4474-8928-9d1558877fe0
+a dao fu 	阿道夫	c=2 d=1.90256 t=32
+a ke da 	阿克達	c=0 d=0.1 t=25
+a ke da ji fen 	阿克達積分	c=1 d=1 t=26
+ai de 	愛的	c=0 d=0.199501 t=27
+ai de kan feng jing 	愛的看風景	c=1 d=1 t=27
+ai de kong jian 	愛的空間	c=1 d=1 t=28
+an zhuang 	安裝	c=1 d=0.980199 t=32
+cheng du 	程度	c=1 d=0.97531 t=32
+cheng gong 	成功	c=1 d=0.985112 t=32
+ci 	詞	c=1 d=1 t=30
+cun zhe 	存摺	c=1 d=0.980199 t=32
+da fa 	打發	c=1 d=0.965605 t=32
+da fei ji 	打飛機	c=1 d=1 t=25
+de kan fa 	的看法	c=1 d=1 t=32
+diao 	掉	c=5 d=4.67573 t=32
+feng ge 	風格	c=1 d=1 t=32
+hen hao 	很好	c=1 d=0.960789 t=32
+ji fen 	積分	c=0 d=0.1 t=25
+jiao cheng 	教程	c=1 d=1 t=32
+kan feng jing 	看風景	c=0 d=0.1 t=26
+kong jian 	空間	c=0 d=0.1 t=27
+kuo zhan 	擴展	c=1 d=1 t=29
+pei zhi 	配置	c=4 d=3.87747 t=32
+shi shi 	實施	c=1 d=0.99005 t=32
+shu ru 	輸入	c=1 d=1 t=32
+wang zhan 	網站	c=1 d=1 t=31
+wo men 	我們	c=1 d=0.97531 t=32
+yin 	音	c=1 d=0.995012 t=32
+zhi zao 	製造	c=1 d=0.995012 t=32

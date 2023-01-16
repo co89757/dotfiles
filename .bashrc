@@ -261,7 +261,7 @@ export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 alias df="df -Tha --total"
 # user-defined environment variables
-export PATH=/opt/local/bin:$PATH
+#export PATH=/opt/local/bin:$PATH
 # export GOPATH=$HOME/dev/go
 # export GOROOT="/usr/local/go"
 

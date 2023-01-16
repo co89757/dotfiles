@@ -1,0 +1,16 @@
+patch:
+  schema_list:
+    - schema: luna_pinyin
+    - schema: luna_pinyin_simp
+  menu:
+    page_size: 8
+  "switcher/hotkeys":
+    - "Control+grave"
+    - F4
+  ascii_composer:
+    switch_key:
+      Caps_Lock: commit_code
+      Shift_L: commit_code
+      Shift_R: inline_ascii
+      Control_L: noop
+      Control_R: noop
