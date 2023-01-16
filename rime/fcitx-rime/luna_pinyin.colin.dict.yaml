@@ -1,0 +1,36 @@
+# Rime dictionary
+# encoding: utf-8
+#
+# 「Rime词库扩展计划」——为小狼毫打造一个强大好用的词库（OpenCC重制版） by @imy0823
+#
+#
+# 部署位置：
+# ~/.config/ibus/rime  (Linux)
+# ~/Library/Rime  (Mac OS)
+# %APPDATA%\Rime  (Windows)
+#
+# 於重新部署後生效
+#
+
+---
+name: luna_pinyin.colin
+version: "2022.09.07"
+sort: by_weight
+use_preset_vocabulary: true
+...
+
+許文強
+蘇奕斐
+林文卿
+慶豐帝
+維尼帝
+米帝
+帝都
+魔都
+殷蕊
+王隆
+浙大玉泉
+西溪
+林西溪
+林清豹
+林時寧

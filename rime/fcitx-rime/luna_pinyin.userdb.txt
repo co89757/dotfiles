@@ -2,41 +2,78 @@
 #@/db_name	luna_pinyin
 #@/db_type	userdb
 #@/rime_version	1.7.3
-#@/tick	43
+#@/tick	90
 #@/user_id	ca8a8291-70b3-4474-8928-9d1558877fe0
-a dao fu 	阿道夫	c=4 d=3.77595 t=43
-a ke da 	阿克達	c=0 d=0.0965605 t=43
-a ke da ji fen 	阿克達積分	c=1 d=0.970446 t=43
-ai de 	愛的	c=1 d=1.16928 t=43
-ai de kan feng jing 	愛的看風景	c=1 d=0.97531 t=43
-ai de kong jian 	愛的空間	c=1 d=0.980199 t=43
-an zhuang 	安裝	c=1 d=0.980199 t=43
-chen yi xun 	陳奕迅	c=1 d=1 t=36
-cheng du 	程度	c=1 d=0.97531 t=43
-cheng gong 	成功	c=1 d=0.985112 t=43
-ci 	詞	c=1 d=0.99005 t=43
-ci ku 	詞庫	c=1 d=1 t=37
-cun zhe 	存摺	c=1 d=0.980199 t=43
-da fa 	打發	c=1 d=0.965605 t=43
-da fei ji 	打飛機	c=2 d=1.90398 t=43
-de kan fa 	的看法	c=1 d=1 t=43
-diao 	掉	c=5 d=4.67573 t=43
-feng ge 	風格	c=1 d=1 t=43
-hen hao 	很好	c=1 d=0.960789 t=43
-hua ao hao 	話奧好	c=1 d=1 t=38
-ji fen 	積分	c=0 d=0.0965605 t=43
-jiao cheng 	教程	c=1 d=1 t=43
-jiu ku yin yue wang 	九酷音樂網	c=1 d=1 t=34
-kan feng jing 	看風景	c=0 d=0.0970446 t=43
-kong jian 	空間	c=0 d=0.097531 t=43
-kuai di fei 	快遞費	c=1 d=1 t=43
-kuo zhan 	擴展	c=1 d=0.985112 t=43
-pei zhi 	配置	c=4 d=3.87747 t=43
-shi shi 	實施	c=1 d=0.99005 t=43
-shu ru 	輸入	c=1 d=1 t=43
-tang mu xun 	湯姆遜	c=1 d=1 t=35
-wang zhan 	網站	c=1 d=0.995012 t=43
-wo men 	我們	c=1 d=0.97531 t=43
-yin 	音	c=1 d=0.995012 t=43
-zhi zao 	製造	c=1 d=0.995012 t=43
-zhong guo wang 	中國網	c=1 d=1 t=33
+a dao fu 	阿道夫	c=5 d=4.29349 t=90
+a ke da 	阿克達	c=0 d=0.0965605 t=90
+a ke da ji fen 	阿克達積分	c=1 d=0.970446 t=90
+ai de 	愛的	c=1 d=1.16928 t=90
+ai de kan feng jing 	愛的看風景	c=1 d=0.97531 t=90
+ai de kong jian 	愛的空間	c=1 d=0.980199 t=90
+an zhuang 	安裝	c=1 d=0.980199 t=90
+bao 	豹	c=1 d=1 t=81
+chen yi xun 	陳奕迅	c=1 d=0.965605 t=90
+cheng du 	程度	c=1 d=0.97531 t=90
+cheng gong 	成功	c=1 d=0.985112 t=90
+ci 	詞	c=1 d=0.99005 t=90
+ci ku 	詞庫	c=2 d=1.78814 t=90
+cun zhe 	存摺	c=1 d=0.980199 t=90
+da fa 	打發	c=1 d=0.965605 t=90
+da fei ji 	打飛機	c=2 d=1.90398 t=90
+de kan fa 	的看法	c=1 d=1 t=90
+di 	帝	c=2 d=1.96042 t=90
+di du 	帝都	c=2 d=1.94099 t=90
+diao 	掉	c=5 d=4.67573 t=90
+diao 	調	c=0 d=0.1 t=87
+fei 	斐	c=1 d=0.99005 t=90
+fei 	裴	c=1 d=0.955997 t=90
+feng ge 	風格	c=1 d=1 t=90
+fu hao 	符號	c=1 d=1 t=90
+hen hao 	很好	c=1 d=0.960789 t=90
+hua ao hao 	話奧好	c=1 d=0.97531 t=90
+ji fen 	積分	c=0 d=0.0965605 t=90
+jiao cheng 	教程	c=1 d=1 t=90
+jiu ku yin yue wang 	九酷音樂網	c=1 d=0.955997 t=90
+kan feng jing 	看風景	c=0 d=0.0970446 t=90
+kong jian 	空間	c=0 d=0.097531 t=90
+kuai di fei 	快遞費	c=1 d=1 t=90
+kuo zhan 	擴展	c=2 d=1.79661 t=90
+lin 	林	c=2 d=2.07976 t=82
+lin wen qing 	林文卿	c=1 d=1 t=78
+lin xi xi 	林西溪	c=1 d=1 t=72
+mi di 	米帝	c=1 d=0.99005 t=90
+mo du 	魔都	c=2 d=1.95072 t=90
+ning 	寧	c=1 d=1 t=84
+pei zhi 	配置	c=4 d=3.87747 t=90
+pin yin 	拼音	c=1 d=1 t=87
+qiang 	強	c=1 d=0.941765 t=90
+qing 	卿	c=1 d=0.965605 t=90
+qing 	清	c=1 d=1 t=80
+qing feng 	慶豐	c=1 d=0.970446 t=90
+shang hai 	上海	c=1 d=0.923116 t=90
+shang hai tan 	上海灘	c=1 d=0.927743 t=90
+shi 	時	c=1 d=1 t=83
+shi shi 	實施	c=1 d=0.99005 t=90
+shu ru 	輸入	c=1 d=1 t=90
+shu ru fa 	輸入法	c=2 d=1.9802 t=89
+su 	蘇	c=1 d=0.946485 t=90
+su yi fei 	蘇奕裴	c=1 d=0.97531 t=90
+tang mu xun 	湯姆遜	c=1 d=0.960789 t=90
+wang long 	王隆	c=1 d=1 t=90
+wang zhan 	網站	c=1 d=0.995012 t=90
+wei ni 	維尼	c=1 d=0.980199 t=90
+wen 	文	c=2 d=1.89786 t=90
+wo men 	我們	c=1 d=0.97531 t=90
+wu sheng 	無聲	c=0 d=0.1 t=87
+wu sheng diao 	無聲調	c=1 d=1 t=88
+xi xi 	西溪	c=1 d=1.1 t=71
+xu 	許	c=1 d=0.932394 t=90
+xu wen qiang 	許文強	c=2 d=1.80209 t=90
+yi 	奕	c=1 d=0.951229 t=90
+yin 	音	c=1 d=0.995012 t=90
+yin rui 	殷蕊	c=3 d=2.71515 t=90
+yu quan 	玉泉	c=1 d=1 t=70
+yue yu 	粵語	c=1 d=1 t=86
+zhe da 	浙大	c=1 d=1 t=69
+zhi zao 	製造	c=1 d=0.995012 t=90
+zhong guo wang 	中國網	c=1 d=0.951229 t=90

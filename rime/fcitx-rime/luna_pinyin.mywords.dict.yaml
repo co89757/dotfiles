@@ -7,4 +7,5 @@ use_preset_vocabulary: true   # 是否使用预置发音，一般选true
 import_tables:
   - luna_pinyin               # 预置的朙月拼音词库
   - luna_pinyin.website       # 網站
+  - luna_pinyin.colin         # colin's personal dict
 ---
