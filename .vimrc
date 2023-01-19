@@ -12,16 +12,15 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
-"  :Python3Syntax to use py3 syntax highlighting
-Plugin 'hdima/python-syntax'
 Plugin 'mattn/emmet-vim'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'majutsushi/tagbar'
-Plugin 'ludovicchabant/vim-gutentags'
-Plugin 'w0rp/ale'
+" Plugin 'ludovicchabant/vim-gutentags'
+" Plugin 'w0rp/ale'
 Plugin 'Yggdroot/LeaderF'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
+Plugin 'mileszs/ack.vim'
 "Custom text objects
 "new text-objs:
 "  i, and a, : parameter object
@@ -38,23 +37,23 @@ Plugin 'kana/vim-textobj-function'
 Plugin 'sgur/vim-textobj-parameter'
 
 Plugin 'scrooloose/nerdtree'
-Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'Chiel92/vim-autoformat'
+" Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-fugitive'
+"Plugin 'fatih/vim-go'  "Optional for go dev
 Plugin 'skywind3000/asyncrun.vim'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'vim-airline/vim-airline'
-
-" Track the engine.
+" Plugin 'Valloric/YouCompleteMe' "Optional heavyweight plugin for cpp dev. 
+Plugin 'vim-airline/vim-airline' 
 Plugin 'SirVer/ultisnips'
 " Snippets are separated from the engine. Add this if you want them:
 Plugin 'honza/vim-snippets'
-" The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
+" Enable FZF, add to runtimepth
+set rtp+=~/.fzf
+
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
@@ -112,15 +111,6 @@ filetype plugin indent on    " required
 
 "Vim Airline Configs
 let g:airline#extensions#tabline#enabled = 1
-"Tagbar configs
-let g:tagbar_type_dosini = {
- \ 'ctagstype' : 'properties',
- \ 'kinds' : [
-   \ 's:Sections',
-   \ 'f:Fields'
-   \],
-  \ 'sort' : 0
-\ }
 
 "NERD Commenter configs
 let g:NERDCommentEmptyLines = 1
@@ -130,11 +120,11 @@ let g:NERDCompactSexyComs = 1
 let g:NERDSpaceDelims = 1
 
 "YOU_COMPLETE_ME Configs
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py'
-let g:ycm_show_diagnostics_ui = 0
-let g:ycm_error_symbol = 'X'
-let g:ycm_warning_symbol = '!'
-let g:ycm_collect_identifiers_from_tags_files = 1
+" let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py'
+" let g:ycm_show_diagnostics_ui = 0
+" let g:ycm_error_symbol = 'X'
+" let g:ycm_warning_symbol = '!'
+" let g:ycm_collect_identifiers_from_tags_files = 1
 
 "LeaderF configs
 let g:Lf_ShortcutF = '<C-P>'
@@ -143,21 +133,33 @@ let g:Lf_CacheDirectory =expand('~/.vim/cache')
 nnoremap <S-P> :LeaderfFunction<CR>
 nnoremap <S-T> :LeaderfBuffer<CR>
 
-"AsyncRun configs
+""""""""""Ack.vim configs""""""""""""
+if executable('rg')
+ let g:ackprg = 'rg --vimgrep --type-not sql --smart-case' 
+endif
+"Empty ack search searches for <cword>
+let g:ack_use_cword_for_empty_search = 1
+"Do not jump to 1st match
+cnoreabbrev Ack Ack!
+"Maps <leader>/ 
+
+""""""""AsyncRun configs""""""""
 let g:asyncrun_open = 6
 let g:asyncrun_bell = 1 
 let g:asyncrun_rootmarks = ['.svn','.git','.root','Makefile']
 nnoremap <F6> :call asyncrun#quickfix_toggle(6)<CR>
-augroup asyncruns
+augroup asyncrun
+  autocmd!
+  autocmd FileType sh nnoremap <buffer> <silent> <F5>  :AsyncRun bash "$(VIM_FILEPATH)" <CR>
+  autocmd FileType go nnoremap <buffer> <silent> <S-C-B>  :AsyncRun go build "$(VIM_FILEDIR)" <CR>
   autocmd FileType cpp  nnoremap <buffer> <silent> <S-C-B> :AsyncRun g++ -g -Wall -std=c++11 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
   autocmd FileType python nnoremap <buffer> <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR)  python3 "$(VIM_FILEPATH)" <cr>
   autocmd FileType cpp  nnoremap <buffer> <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
-  autocmd FileType rust nnoremap <buffer> <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) cargo build && cargo run <CR>
 augroup END
 
 "GitGutter Configs
 "You can jump between hunks with [c and ]c. You can preview, stage, and undo hunks with <leader>hp, <leader>hs, and <leader>hu respectively.
-nnoremap <Leader>ha <Plug>GitGutterStageHunk
+"  nnoremap <Leader>ha <Plug>GitGutterStageHunk
 
 " "GutenTags configs
 let g:gutentags_project_root = ['.root','.svn','.git','.project']
@@ -214,13 +216,6 @@ autocmd BufWrite *.h,*.cc,*cpp,*.py :Autoformat
 
 set background=dark
 
-"C++ highlight config
-let g:cpp_class_scope_highlight = 1
-let g:cpp_member_variable_highlight = 1
-let g:cpp_class_decl_highlight = 1
-let g:cpp_experimental_template_highlight = 1
-let c_no_curly_error=1
-
 "set colorscheme
 colorscheme lucius
 
@@ -232,66 +227,13 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetDirectories=['~/.vim/UltiSnips','UltiSnips']
 
-" " If you want :UltiSnipsEdit to split your window.
-" let g:UltiSnipsEditSplit="vertical"
-"Rainbow Parenthesis configs
-let g:rbpt_colorpairs = [
-    \ ['brown',       'RoyalBlue3'],
-    \ ['Darkblue',    'SeaGreen3'],
-    \ ['darkgray',    'DarkOrchid3'],
-    \ ['darkgreen',   'firebrick3'],
-    \ ['darkcyan',    'RoyalBlue3'],
-    \ ['darkred',     'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['brown',       'firebrick3'],
-    \ ['gray',        'RoyalBlue3'],
-    \ ['black',       'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['Darkblue',    'firebrick3'],
-    \ ['darkgreen',   'RoyalBlue3'],
-    \ ['darkcyan',    'SeaGreen3'],
-    \ ['darkred',     'DarkOrchid3'],
-    \ ['red',         'firebrick3'],
-    \ ]
-
-let g:rbpt_max = 16
-let g:rbpt_loadcmd_toggle=0
-
-augroup rainbowparens
-  autocmd VimEnter * RainbowParenthesesToggle
-  autocmd Syntax * RainbowParenthesesLoadRound
-  autocmd Syntax * RainbowParenthesesLoadSquare
-  autocmd Syntax * RainbowParenthesesLoadBraces
-augroup END
-nnoremap <F7> :RainbowParenthesesToggle<CR>
-"python with virtualenv support
-python3 << EOF
-import os
-import sys
-if 'VIRTUAL_ENV' in os.environ:
-  project_base_dir = os.environ['VIRTUAL_ENV']
-  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-  exec(open(activate_this).read(), dict(__file__=activate_this))
-EOF
-" "Vim-Go configs
-" " run :GoBuild or :GoTestCompile based on the go file
-" function! s:build_go_files()
-"   let l:file = expand('%')
-"   if l:file =~# '^\f\+_test\.go$'
-"     call go#test#Test(0, 1)
-"   elseif l:file =~# '^\f\+\.go$'
-"     call go#cmd#Build(0)
-"   endif
-" endfunction
-"
-" autocmd FileType go nnoremap <leader>b :<C-u>call <SID>build_go_files()<CR>
-" autocmd FileType go nnoremap <leader>r :GoRun<CR>
-" autocmd FileType go nnoremap <leader>t :GoTest<CR>
-"
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap ]b :bnext<CR>
 nnoremap [b :bprevious<CR>
+" Move within quickfix window entries by ]/[q
+nnoremap [q :cp<CR> 
+nnoremap ]q :cn<CR>
 nnoremap <F12> <C-]>
 nnoremap <S-F12> <C-W-}>
 " Sets how many lines of history VIM has to remember
@@ -314,22 +256,27 @@ let mapleader = ","
 let g:mapleader = ","
 let maplocalleader = "\\"
 nnoremap <leader>ev :e ~/.vimrc <CR>
-iabbrev @@ colinlin@pm.me 
 " Surround current word with quotes
 nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
-" delete curent line in insert mode
-imap <C-l> <esc>ddi
-"COLIN-remove trailing spaces on each line
-nmap <leader><Space><Space> :%s/\s\+$//<cr>
+nnoremap <leader>a :Ack!<Space>
+nnoremap <leader>O O<esc>j
+inoremap <C-v> <C-R> <C-P> "
+" Copy using Ctrl-C in v-mode to system clipboard. 
+" Note :echo has('clipboard') needs to return 1 for this to work
+" Otherwise, please install vim-gtk or vim-gtk3 package
+vnoremap <C-c> "+y
+"COLIN-remove trailing spaces on each linnoe
+nnoremap <leader><Space><Space> :%s/\s\+$//<cr>
 " Fast saving
-nmap <leader>w :w!<cr>
+nnoremap <leader>w :w!<cr>
 " Tagbar toggle
-nmap <F8> :TagbarToggle<CR>
+nnoremap <F8> :TagbarToggle<CR>
 "open nerd tree
-nmap <F9> :NERDTreeToggle<CR>
+nnoremap <F9> :NERDTreeToggle<CR>
 " :W sudo saves the file
 " (useful for handling the permission-denied error)
 command W w !sudo tee % > /dev/null
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -466,15 +413,19 @@ set wrap "Wrap lines
 " Supemapr useful! From an idea by Michael Naumann
 vnoremap <silent> * :call VisualSelection('f', '')<CR>
 vnoremap <silent> # :call VisualSelection('b', '')<CR>
-
-
+" surround with 
+vnoremap <leader>s' c'<C-r>"'<Esc>
+vnoremap <leader>s( c(<C-r>")<Esc>
+vnoremap <leader>s" c"<C-r>""<Esc>
+vnoremap <leader>s` c`<C-r>"`<Esc>
+" in markdown files surround selection in code block ```
+au FileType markdown vnoremap <leader>sb c```<CR><C-r>"<CR>```<CR><Esc>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Treat long lines as break lines (useful when moving around in them)
 map j gj
 map k gk
-
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
 map <space> /
 map <c-space> ?
@@ -497,7 +448,7 @@ map <leader>ba :bufdo bd<cr>
 " Useful mappings for managing tabs
 map <leader>tn :tabnew<cr>
 map <leader>to :tabonly<cr>
-map <leader>tc :tabclose<cr>
+map <leader>tx :tabclose<cr>
 map <leader>tm :tabmove
 map <leader>t<leader> :tabnext
 
@@ -565,10 +516,16 @@ func! DeleteTrailingWS()
   %s/\s\+$//ge
   exe "normal `z"
 endfunc
-augroup delTrailingGroup
+augroup deletetrailws
+  autocmd!
   autocmd BufWrite *.py :call DeleteTrailingWS()
-  autocmd BufWrite *.coffee :call DeleteTrailingWS()
-augroup END
+  autocmd BufWrite *.go :call DeleteTrailingWS()
+  autocmd BufWrite *.md :call DeleteTrailingWS()
+  autocmd BufWrite *.cc :call DeleteTrailingWS()
+  autocmd BufWrite *.vim :call DeleteTrailingWS()
+  autocmd BufWrite *.java :call DeleteTrailingWS()
+  autocmd BufWrite *.sh :call DeleteTrailingWS()
+augroup END 
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -576,13 +533,13 @@ augroup END
 "    requires ag.vim - it's much better than vimgrep/grep
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " When you press gv you Ag after the selected text
-vnoremap <silent> gv :call VisualSelection('gv', '')<CR>
+" vnoremap <silent> gv :call VisualSelection('gv', '')<CR>
 
 " Open Ag and put the cursor in the right position
-map <leader>g :Ag
+" map <leader>g :Ag
 
 " When you press <leader>r you can search and replace the selected text
-vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
+" vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
 
 " Do :help cope if you are unsure what cope is. It's super useful!
 "
@@ -595,10 +552,10 @@ vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
 " To go to the previous search results do:
 "   <leader>p
 "
-map <leader>cc :botright cope<cr>
-map <leader>co ggVGy:tabnew<cr>:set syntax=qf<cr>pgg
-map <leader>n :cn<cr>
-map <leader>p :cp<cr>
+" map <leader>cc :botright cope<cr>
+" map <leader>co ggVGy:tabnew<cr>:set syntax=qf<cr>pgg
+" map <leader>n :cn<cr>
+" map <leader>p :cp<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -632,11 +589,6 @@ map <leader>pp :setlocal paste!<cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! CmdLine(str)
-    exe "menu Foo.Bar :" . a:str
-    emenu Foo.Bar
-    unmenu Foo
-endfunction
 
 function! VisualSelection(direction, extra_filter) range
     let l:saved_reg = @"
