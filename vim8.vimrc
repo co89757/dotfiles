@@ -18,6 +18,9 @@ Plugin 'majutsushi/tagbar'
 " Plugin 'ludovicchabant/vim-gutentags'
 " Plugin 'w0rp/ale'
 Plugin 'Yggdroot/LeaderF'
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
+Plugin 'mileszs/ack.vim'
 "Custom text objects
 "new text-objs:
 "  i, and a, : parameter object
@@ -34,7 +37,6 @@ Plugin 'kana/vim-textobj-function'
 Plugin 'sgur/vim-textobj-parameter'
 
 Plugin 'scrooloose/nerdtree'
-Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'Chiel92/vim-autoformat'
 " Plugin 'airblade/vim-gitgutter'
@@ -42,18 +44,15 @@ Plugin 'tpope/vim-fugitive'
 "Plugin 'fatih/vim-go'  "Optional for go dev
 Plugin 'skywind3000/asyncrun.vim'
 " Plugin 'Valloric/YouCompleteMe' "Optional heavyweight plugin for cpp dev. 
-"Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'vim-airline/vim-airline' 
-
-" Track the engine.
 Plugin 'SirVer/ultisnips'
 " Snippets are separated from the engine. Add this if you want them:
 Plugin 'honza/vim-snippets'
-" The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
+" Enable FZF, add to runtimepth
+set rtp+=~/.fzf
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
@@ -130,9 +129,17 @@ let g:NERDSpaceDelims = 1
 let g:Lf_ShortcutF = '<C-P>'
 let g:Lf_RootMarkers = ['.project','.root','.git','.svn']
 let g:Lf_CacheDirectory =expand('~/.vim/cache')
+let g:Lf_ShowDevIcons = 0
 nnoremap <S-P> :LeaderfFunction<CR>
 nnoremap <S-T> :LeaderfBuffer<CR>
-
+""""""""""Ack.vim configs""""""""""""
+if executable('rg')
+ let g:ackprg = 'rg --vimgrep --type-not sql --smart-case' 
+endif
+"Empty ack search searches for <cword>
+let g:ack_use_cword_for_empty_search = 1
+"Do not jump to 1st match
+cnoreabbrev Ack Ack!
 
 
 "AsyncRun configs
@@ -140,10 +147,14 @@ let g:asyncrun_open = 6
 let g:asyncrun_bell = 1 
 let g:asyncrun_rootmarks = ['.svn','.git','.root','Makefile']
 nnoremap <F6> :call asyncrun#quickfix_toggle(6)<CR>
-autocmd FileType cpp  nnoremap <buffer> <silent> <S-C-B> :AsyncRun g++ -g -Wall -std=c++11 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
-autocmd FileType python nnoremap <buffer> <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR)  python3 "$(VIM_FILEPATH)" <cr>
-autocmd FileType cpp  nnoremap <buffer> <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
-
+augroup asyncrun
+  autocmd!
+  autocmd FileType sh nnoremap <buffer> <silent> <F5>  :AsyncRun bash "$(VIM_FILEPATH)" <CR>
+  autocmd FileType go nnoremap <buffer> <silent> <S-C-B>  :AsyncRun go build "$(VIM_FILEDIR)" <CR>
+  autocmd FileType cpp  nnoremap <buffer> <silent> <S-C-B> :AsyncRun g++ -g -Wall -std=c++11 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
+  autocmd FileType python nnoremap <buffer> <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR)  python3 "$(VIM_FILEPATH)" <cr>
+  autocmd FileType cpp  nnoremap <buffer> <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
+augroup END
 
 " "GutenTags configs
 let g:gutentags_project_root = ['.root','.svn','.git','.project']
@@ -211,63 +222,6 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetDirectories=['~/.vim/UltiSnips','UltiSnips']
 
-" " If you want :UltiSnipsEdit to split your window.
-" let g:UltiSnipsEditSplit="vertical"
-"Rainbow Parenthesis configs
-let g:rbpt_colorpairs = [
-    \ ['brown',       'RoyalBlue3'],
-    \ ['Darkblue',    'SeaGreen3'],
-    \ ['darkgray',    'DarkOrchid3'],
-    \ ['darkgreen',   'firebrick3'],
-    \ ['darkcyan',    'RoyalBlue3'],
-    \ ['darkred',     'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['brown',       'firebrick3'],
-    \ ['gray',        'RoyalBlue3'],
-    \ ['black',       'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['Darkblue',    'firebrick3'],
-    \ ['darkgreen',   'RoyalBlue3'],
-    \ ['darkcyan',    'SeaGreen3'],
-    \ ['darkred',     'DarkOrchid3'],
-    \ ['red',         'firebrick3'],
-    \ ]
-
-let g:rbpt_max = 16
-let g:rbpt_loadcmd_toggle=0
-
-autocmd VimEnter * RainbowParenthesesToggle
-autocmd Syntax * RainbowParenthesesLoadRound
-autocmd Syntax * RainbowParenthesesLoadSquare
-autocmd Syntax * RainbowParenthesesLoadBraces
-
-nnoremap <F7> :RainbowParenthesesToggle<CR>
-" "python with virtualenv support
-" python3 << EOF
-" import os
-" import sys
-" if 'VIRTUAL_ENV' in os.environ:
-"   project_base_dir = os.environ['VIRTUAL_ENV']
-"   activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-"   exec(open(activate_this).read(), dict(__file__=activate_this))
-" EOF
-
-
-" "Vim-Go configs
-" " run :GoBuild or :GoTestCompile based on the go file
-" function! s:build_go_files()
-"   let l:file = expand('%')
-"   if l:file =~# '^\f\+_test\.go$'
-"     call go#test#Test(0, 1)
-"   elseif l:file =~# '^\f\+\.go$'
-"     call go#cmd#Build(0)
-"   endif
-" endfunction
-"
-" autocmd FileType go nnoremap <leader>b :<C-u>call <SID>build_go_files()<CR>
-" autocmd FileType go nnoremap <leader>r :GoRun<CR>
-" autocmd FileType go nnoremap <leader>t :GoTest<CR>
-"
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap ]b :bnext<CR>
@@ -294,8 +248,17 @@ let mapleader = ","
 let g:mapleader = ","
 
 " Surround current word with quotes
-:nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
-imap <C-l> <esc>ddi
+nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
+nnoremap <leader>a :Ack!<Space>
+" open a newline above and stay in current line
+nnoremap <leader>O O<esc>j
+inoremap <C-v> <C-R> <C-P> "
+" Copy using Ctrl-C in v-mode to system clipboard. 
+" Note :echo has('clipboard') needs to return 1 for this to work
+" Otherwise, please install vim-gtk or vim-gtk3 package
+vnoremap <C-c> "+y
+" Search and replace visual-selected word with Ctrl+R in v-mode
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 "COLIN-remove trailing spaces on each line
 nmap <leader><Space><Space> :%s/\s\+$//<cr>
 " Fast saving
@@ -445,7 +408,13 @@ set wrap "Wrap lines
 vnoremap <silent> * :call VisualSelection('f', '')<CR>
 vnoremap <silent> # :call VisualSelection('b', '')<CR>
 
-
+" surround with 
+vnoremap <leader>s' c'<C-r>"'<Esc>
+vnoremap <leader>s( c(<C-r>")<Esc>
+vnoremap <leader>s" c"<C-r>""<Esc>
+vnoremap <leader>s` c`<C-r>"`<Esc>
+" in markdown files surround selection in code block ```
+au FileType markdown vnoremap <leader>sb c```<CR><C-r>"<CR>```<CR><Esc>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -467,7 +436,7 @@ map <C-h> <C-W>h
 map <C-l> <C-W>l
 
 " Close the current buffer
-map <leader>bd :Bclose<cr>
+map <leader>bx :Bclose<cr>
 
 " Close all the buffers
 map <leader>ba :bufdo bd<cr>
@@ -475,7 +444,7 @@ map <leader>ba :bufdo bd<cr>
 " Useful mappings for managing tabs
 map <leader>tn :tabnew<cr>
 map <leader>to :tabonly<cr>
-map <leader>tc :tabclose<cr>
+map <leader>tx :tabclose<cr>
 map <leader>tm :tabmove
 map <leader>t<leader> :tabnext
 
@@ -543,8 +512,16 @@ func! DeleteTrailingWS()
   %s/\s\+$//ge
   exe "normal `z"
 endfunc
-autocmd BufWrite *.py :call DeleteTrailingWS()
-autocmd BufWrite *.js :call DeleteTrailingWS()
+augroup deletetrailws
+  autocmd!
+  autocmd BufWrite *.py :call DeleteTrailingWS()
+  autocmd BufWrite *.go :call DeleteTrailingWS()
+  autocmd BufWrite *.md :call DeleteTrailingWS()
+  autocmd BufWrite *.cc :call DeleteTrailingWS()
+  autocmd BufWrite *.vim :call DeleteTrailingWS()
+  autocmd BufWrite *.java :call DeleteTrailingWS()
+  autocmd BufWrite *.sh :call DeleteTrailingWS()
+augroup END 
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -634,7 +611,21 @@ function! VisualSelection(direction, extra_filter) range
     let @/ = l:pattern
     let @" = l:saved_reg
 endfunction
-
+"show all snippets available for current buffer
+function! GetAllSnippets()
+  call UltiSnips#SnippetsInCurrentScope(1)
+  let list = []
+  for [key, info] in items(g:current_ulti_dict_info)
+    let parts = split(info.location, ':')
+    call add(list, {
+      \"key": key,
+      \"path": parts[0],
+      \"linenr": parts[1],
+      \"description": info.description,
+      \})
+  endfor
+  return list
+endfunction
 
 " Returns true if paste mode is enabled
 function! HasPaste()

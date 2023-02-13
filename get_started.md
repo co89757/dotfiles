@@ -3,7 +3,8 @@
 sudo apt update
 sudo apt install pqiv ffmpeg ranger hplip hplip-gui simple-scan \
 fcitx5 fcitx-rime \
-ripgrep fzf fd-find tmux curl xz-utils xsel
+ripgrep fzf fd-find tmux curl xz-utils xsel \
+mupdf mupdf-tool zathura
 ```
 # configure ranger
 ranger --copy-config=all

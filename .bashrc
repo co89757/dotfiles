@@ -177,7 +177,7 @@ fi
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-alias rsync='rsync -anvP'
+
 mcd() { mkdir -p "$1" && cd "$1"; }
 xtract() {
     if [ -f $1 ]; then
@@ -220,21 +220,8 @@ firstpush() {
     git push --set-upstream origin ${bname}
 }
 
-### Git aliases ####
-# alias gadd='git add'
-# alias gst='git status -s'
-# alias gpush='git push'
-# alias gpull='git pull'
-# alias gci='git commit'
-# alias gl='git log --pretty=oneline'
-# alias gb='git branch'
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+if [ -f ~/.more_bashrc ]; then
+    . ~/.more_bashrc
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -260,7 +247,12 @@ export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 alias df="df -Tha --total"
-# user-defined environment variables
+# additional entries to $PATH
+more_paths=()
+for p in "${more_paths[@]}"; do 
+[[ $PATH = *$p* ]] || export PATH="$p:$PATH"
+done
+
 #export PATH=/opt/local/bin:$PATH
 # export GOPATH=$HOME/dev/go
 # export GOROOT="/usr/local/go"
