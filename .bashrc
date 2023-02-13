@@ -269,5 +269,5 @@ done
 
 ## Some recommended bash libraries for productivity
 # . $HOME/dev/scripts/z.sh
-# [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-# export FZF_DEFAULT_OPTS='--height 40% --border'
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+export FZF_DEFAULT_OPTS='--height 40% --border'
