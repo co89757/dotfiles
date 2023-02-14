@@ -1,3 +1,7 @@
+#!/usr/bin/env bash
+
+####### The script to set up a brand-new box with minimal essential packages
+
 set -uo pipefail
 trap "echo 'error: Script failure: see failed command above '" ERR
 export PS4="'+(${BASH_SOURCE}:${LINENO}): ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'"
@@ -87,33 +91,48 @@ done
 
 
 ########### MAIN #################
+loginfo " ---- Prerequisite check -----"
+
+hash git 2>/dev/null || sudo apt install git
+hash vim 2>/dev/null || sudo apt install vim
 
 loginfo "----- INSTALL THE ESSENTIAL PACKAGES ------"
-PKGS=(tmux curl ranger xclip xsel fcitx5 fcitx-rime ripgrep fzf fd-find \
+PKGS=(tmux curl ranger xclip xsel fcitx fcitx-rime ripgrep fd-find \
 python3-dev build-essential \
 mpv pqiv ffmpeg zathura)
 
 loginfo "Essential packages:%s" "${PKGS[*]}"
 sudo apt update
-(( DRYRUN )) && loginfo "sudo apt install ${PKGS[@]}" || sudo apt install ${PKGS[@]}
+(( DRYRUN )) && loginfo "sudo apt install ${PKGS[*]}" || sudo apt install ${PKGS[*]}
 
+loginfo "Install fzf ..."
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
 
 loginfo "------ ESSENTIAL CONFIGURATION -------"
+ranger --copy-config=all
 loginfo "----- COPY .bashrc -----"
-[[ -f .bashrc ]] && {cp .bashrc ~/ ; touch ~/.more_bashrc; . ~/.bashrc; }
+touch ~/.more_bashrc
+[[ -f .bashrc ]] && cp .bashrc ~/
 loginfo "----- copy .tmux.conf ---"
 [[ -f .tmux.conf ]] && cp .tmux.conf ~/
 loginfo "----- Set up vim -----"
 [[ -f setup_vimtheme.sh ]] && bash setup_vimtheme.sh || sed -i -e 's/^colorscheme.*$/"&/' vim8.vimrc
 [[ -f setup_vimrc.sh ]] && bash setup_vimrc.sh || logfatal "Setup_vimrc.sh not found"
 loginfo "------Set up SSH config ----"
-[[ -f .ssh_config ]] && { mkdir -p ~/.ssh ; cp .ssh_config ~/.ssh/config; cat ~/.ssh/config; } || logerror "No .ssh_config found. skip."
+mkdir -p ~/.ssh
+[[ -f .ssh_config ]] && cp .ssh_config ~/.ssh/config || logerror "No .ssh_config found. skip."
+loginfo "--- SSH Config Printout: "
+cat ~/.ssh/config
 loginfo "------Set up RIME config ----"
 if [[ -d ~/.config/fcitx/rime ]]; then
   echo "---- copy RIME config backup from pi"
-  scp -r pi@$PI:~/backup/config/rime/* ~/.config/fcitx/rime/
+  rsync -avP  pi@$PI:~/backup/config/rime/ ~/.config/fcitx/rime/
+  else
+    logwarning "~/.config/fcitx/rime directory not found. Skip RIME config copy"
 fi
-[[ -f .gitconfig  ]] && {echo "---Copy gitconfig ---"; cp .gitconfig ~/; }
+loginfo "--- Copy .gitconfig "
+[[ -f .gitconfig  ]] && cp .gitconfig ~/
 
 if confirm "do you want to install brave-browser?" ;then
   sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
@@ -122,9 +141,6 @@ if confirm "do you want to install brave-browser?" ;then
   sudo apt install brave-browser
 fi
 
-
-
-
-
-
-
+if confirm "do you want to install vim-gtk3? "   ;then
+ sudo apt install vim-gtk3
+fi
