@@ -51,7 +51,7 @@ filetype plugin indent on    " required
 nnoremap ]b :bnext<CR>
 nnoremap [b :bprevious<CR>
 " Move within quickfix window entries by ]/[q
-nnoremap [q :cp<CR> 
+nnoremap [q :cp<CR>
 nnoremap ]q :cn<CR>
 nnoremap <F12> <C-]>
 nnoremap <S-F12> <C-W-}>
@@ -186,6 +186,9 @@ set encoding=utf8
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
 
+set background=dark
+"set colorscheme
+colorscheme lucius
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
@@ -224,7 +227,7 @@ set wrap "Wrap lines
 " => Visual mode related
 """"""""""""""""""""""""""""""
 
-" Copy using Ctrl-C in v-mode to system clipboard. 
+" Copy using Ctrl-C in v-mode to system clipboard.
 " Note :echo has('clipboard') needs to return 1 for this to work
 " Otherwise, please install vim-gtk or vim-gtk3 package
 vnoremap <C-c> "+y
@@ -235,7 +238,7 @@ vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 " Supemapr useful! From an idea by Michael Naumann
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
-" surround with 
+" surround with
 vnoremap <leader>s' c'<C-r>"'<Esc>
 vnoremap <leader>s( c(<C-r>")<Esc>
 vnoremap <leader>s" c"<C-r>""<Esc>
@@ -344,7 +347,7 @@ augroup deletetrailws
   autocmd BufWrite *.vim :call DeleteTrailingWS()
   autocmd BufWrite *.java :call DeleteTrailingWS()
   autocmd BufWrite *.sh :call DeleteTrailingWS()
-augroup END 
+augroup END
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -474,5 +477,6 @@ function! <SID>BufcloseCloseIt()
    endif
 endfunction
 
-
-
+if !empty(glob('~/.more.vim'))
+ source ~/.more.vim
+endif
