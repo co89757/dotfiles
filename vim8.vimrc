@@ -3,229 +3,13 @@ set number "set line #
 set shell=/bin/bash
 inoremap jj <ESC>
 filetype off                  " required
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-Plugin 'mattn/emmet-vim'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'majutsushi/tagbar'
-" Plugin 'ludovicchabant/vim-gutentags'
-" Plugin 'w0rp/ale'
-Plugin 'Yggdroot/LeaderF'
-Plugin 'junegunn/fzf'
-Plugin 'junegunn/fzf.vim'
-Plugin 'mileszs/ack.vim'
-"Custom text objects
-"new text-objs:
-"  i, and a, : parameter object
-"  ii and ai : identation object e.g vii dii cii 
-"  if and af : function object e.g. vif dif cif on functions
-"  new text-objs:
-"    i, and a, : parameter object
-"    ii and ai : identation object e.g vii dii cii 
-"    if and af : function object e.g. vif dif cif on functions
-Plugin 'kana/vim-textobj-user'
-Plugin 'kana/vim-textobj-indent'
-Plugin 'kana/vim-textobj-syntax'
-Plugin 'kana/vim-textobj-function'
-Plugin 'sgur/vim-textobj-parameter'
-
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'Chiel92/vim-autoformat'
-" Plugin 'airblade/vim-gitgutter'
-Plugin 'tpope/vim-fugitive'
-"Plugin 'fatih/vim-go'  "Optional for go dev
-Plugin 'skywind3000/asyncrun.vim'
-" Plugin 'Valloric/YouCompleteMe' "Optional heavyweight plugin for cpp dev. 
-Plugin 'vim-airline/vim-airline' 
-Plugin 'SirVer/ultisnips'
-" Snippets are separated from the engine. Add this if you want them:
-Plugin 'honza/vim-snippets'
-" Keep Plugin commands between vundle#begin/end.
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-" Enable FZF, add to runtimepth
-set rtp+=~/.fzf
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Maintainer:
-"       Amir Salihefendic
-"       http://amix.dk - amix@amix.dk
-"
-" Version:
-"       5.0 - 29/05/12 15:43:36
-"
-" Blog_post:
-"       http://amix.dk/blog/post/19691#The-ultimate-Vim-configuration-on-Github
-"
-" Awesome_version:
-"       Get this config, nice color schemes and lots of plugins!
-"
-"       Install the awesome version from:
-"
-"           https://github.com/amix/vimrc
-"
-" Syntax_highlighted:
-"       http://amix.dk/vim/vimrc.html
-"
-" Raw_version:
-"       http://amix.dk/vim/vimrc.txt
-"
-" Sections:
-"    -> General
-"    -> VIM user interface
-"    -> Colors and Fonts
-"    -> Files and backups
-"    -> Text, tab and indent related
-"    -> Visual mode related
-"    -> Moving around, tabs and buffers
-"    -> Status line
-"    -> Editing mappings
-"    -> vimgrep searching and cope displaying
-"    -> Spell checking
-"    -> Misc
-"    -> Helper functions
-"----------------------------------------------- PLUGIN CONFIGURATIONS ---------------------------------------------------------
-
-
-"Vim Airline Configs
-let g:airline#extensions#tabline#enabled = 1
-
-"NERD Commenter configs
-let g:NERDCommentEmptyLines = 1
-let g:NERDTrimTrailingWhitespace = 1
-let g:NERDDefaultAlign = 'left'
-let g:NERDCompactSexyComs = 1
-let g:NERDSpaceDelims = 1
-
-"YOU_COMPLETE_ME Configs
-" let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py'
-" let g:ycm_show_diagnostics_ui = 0
-" let g:ycm_error_symbol = 'X'
-" let g:ycm_warning_symbol = '!'
-" let g:ycm_collect_identifiers_from_tags_files = 1
-
-"LeaderF configs
-let g:Lf_ShortcutF = '<C-P>'
-let g:Lf_RootMarkers = ['.project','.root','.git','.svn']
-let g:Lf_CacheDirectory =expand('~/.vim/cache')
-let g:Lf_ShowDevIcons = 0
-nnoremap <S-P> :LeaderfFunction<CR>
-nnoremap <S-T> :LeaderfBuffer<CR>
-""""""""""Ack.vim configs""""""""""""
-if executable('rg')
- let g:ackprg = 'rg --vimgrep --type-not sql --smart-case' 
-endif
-"Empty ack search searches for <cword>
-let g:ack_use_cword_for_empty_search = 1
-"Do not jump to 1st match
-cnoreabbrev Ack Ack!
-
-
-"AsyncRun configs
-let g:asyncrun_open = 6
-let g:asyncrun_bell = 1 
-let g:asyncrun_rootmarks = ['.svn','.git','.root','Makefile']
-nnoremap <F6> :call asyncrun#quickfix_toggle(6)<CR>
-augroup asyncrun
-  autocmd!
-  autocmd FileType sh nnoremap <buffer> <silent> <F5>  :AsyncRun bash "$(VIM_FILEPATH)" <CR>
-  autocmd FileType go nnoremap <buffer> <silent> <S-C-B>  :AsyncRun go build "$(VIM_FILEDIR)" <CR>
-  autocmd FileType cpp  nnoremap <buffer> <silent> <S-C-B> :AsyncRun g++ -g -Wall -std=c++11 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
-  autocmd FileType python nnoremap <buffer> <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR)  python3 "$(VIM_FILEPATH)" <cr>
-  autocmd FileType cpp  nnoremap <buffer> <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
-augroup END
-
-" "GutenTags configs
-let g:gutentags_project_root = ['.root','.svn','.git','.project']
-let g:gutentags_ctags_tagfile = '.tags'
-let s:vim_tags =expand('~/.cache/tags')
-let g:gutentags_cache_dir = s:vim_tags
-"
-
-" detect ~/.cache/tags create if not exist
-if !isdirectory(s:vim_tags)
-   silent! call mkdir(s:vim_tags, 'p')
-endif
-
-"
-"ALE configs
-let g:ale_completion_delay = 500
-let g:ale_echo_delay = 20
-let g:ale_sign_error = 'X'
-let g:ale_sign_warning = '!'
-let g:ale_echo_msg_error_str='E'
-let g:ale_sign_column_always = 0
-let g:ale_echo_msg_warning_str='W'
-let g:ale_echo_msg_format='[%linter%] %s [%severity%]'
-let g:ale_lint_on_text_changed = 'normal'
-let g:ale_lint_on_insert_leave = 1
-let g:ale_cpp_clangcheck_options='-- -Wall -std=c++11 -x c++'
-let g:ale_cpp_gcc_options ='-Wall -std=c++11'
-let g:airline#extensions#ale#enabled = 1
-hi! clear SpellBad
-hi! clear SpellCap
-hi! clear SpellRare
-hi SpellBad cterm=undercurl ctermfg=red 
-hi SpellCap cterm=undercurl ctermfg=blue
-hi SpellRare cterm=undercurl ctermfg=magenta
-
-"
-"Autoformat configuration
-noremap <F3> :Autoformat<CR>
-autocmd BufWrite *.h,*.cc,*cpp,*.py :Autoformat
-"Papercolor theme conifg
-" let g:PaperColor_Theme_Options = {
-"   \   'language': {
-"   \     'python': {
-"   \       'highlight_builtins' : 1
-"   \     },
-"   \     'cpp': {
-"   \       'highlight_standard_library': 1
-"   \     },
-"   \     'c': {
-"   \       'highlight_builtins' : 1
-"   \     }
-"   \   }
-"   \ }
-
-set background=dark
-
-"set colorscheme
-colorscheme lucius
-
-" UltiSnip Confgis """"""""""""""""""""""""""""""""""""""""""""
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<c-k>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-let g:UltiSnipsEditSplit="vertical"
-let g:UltiSnipsSnippetDirectories=['~/.vim/UltiSnips','UltiSnips']
-
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap ]b :bnext<CR>
 nnoremap [b :bprevious<CR>
+" Move within quickfix window entries by ]/[q
+nnoremap [q :cp<CR> 
+nnoremap ]q :cn<CR>
 nnoremap <F12> <C-]>
 nnoremap <S-F12> <C-W-}>
 " Sets how many lines of history VIM has to remember
@@ -246,27 +30,24 @@ set autoread
 "COLIN change leader to space
 let mapleader = ","
 let g:mapleader = ","
-
+let maplocalleader = "\\"
+nnoremap <leader>ev :e ~/.vimrc <CR>
 " Surround current word with quotes
 nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
 nnoremap <leader>a :Ack!<Space>
 " open a newline above and stay in current line
 nnoremap <leader>O O<esc>j
 inoremap <C-v> <C-R> <C-P> "
-" Copy using Ctrl-C in v-mode to system clipboard. 
-" Note :echo has('clipboard') needs to return 1 for this to work
-" Otherwise, please install vim-gtk or vim-gtk3 package
-vnoremap <C-c> "+y
-" Search and replace visual-selected word with Ctrl+R in v-mode
-vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
-"COLIN-remove trailing spaces on each line
-nmap <leader><Space><Space> :%s/\s\+$//<cr>
+
+
+"COLIN-remove trailing spaces on each linnoe
+nnoremap <leader><Space><Space> :%s/\s\+$//<cr>
 " Fast saving
-nmap <leader>w :w!<cr>
+nnoremap <leader>w :w!<cr>
 " Tagbar toggle
-nmap <F8> :TagbarToggle<CR>
+nnoremap <F8> :TagbarToggle<CR>
 "open nerd tree
-nmap <F9> :NERDTreeToggle<CR>
+nnoremap <F9> :NERDTreeToggle<CR>
 " :W sudo saves the file
 " (useful for handling the permission-denied error)
 command W w !sudo tee % > /dev/null
@@ -332,7 +113,7 @@ set lazyredraw
 set magic
 
 " Show matching brackets when text indicator is over them
-set showmatch
+set showmatch matchtime=3
 " How many tenths of a second to blink when matching brackets
 set mat=2
 
@@ -403,11 +184,18 @@ set wrap "Wrap lines
 """"""""""""""""""""""""""""""
 " => Visual mode related
 """"""""""""""""""""""""""""""
+
+" Copy using Ctrl-C in v-mode to system clipboard. 
+" Note :echo has('clipboard') needs to return 1 for this to work
+" Otherwise, please install vim-gtk or vim-gtk3 package
+vnoremap <C-c> "+y
+" Search and replace visual-selected word with Ctrl+R in v-mode
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+
 " Visual mode pressing * or # searches for the current selection
 " Supemapr useful! From an idea by Michael Naumann
-vnoremap <silent> * :call VisualSelection('f', '')<CR>
-vnoremap <silent> # :call VisualSelection('b', '')<CR>
-
+vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
+vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 " surround with 
 vnoremap <leader>s' c'<C-r>"'<Esc>
 vnoremap <leader>s( c(<C-r>")<Esc>
@@ -421,7 +209,6 @@ au FileType markdown vnoremap <leader>sb c```<CR><C-r>"<CR>```<CR><Esc>
 " Treat long lines as break lines (useful when moving around in them)
 map j gj
 map k gk
-
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
 map <space> /
 map <c-space> ?
@@ -456,7 +243,7 @@ au TabLeave * let g:lasttab = tabpagenr()
 
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
-map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
+map <leader>te :tabedit <C-r>=escape(expand("%:p:h"), " ")<cr>/
 
 " Switch CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
@@ -469,12 +256,7 @@ catch
 endtry
 
 " Return to last edit position when opening files (You want this!)
-" autocmd BufReadPost *
-"      \ if line("'\"") > 0 && line("'\"") <= line("$") |
-"      \   exe "normal! g`\"" |
-"      \ endif
-" Remember info about open buffers on close
-" set viminfo^=%
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 
 """"""""""""""""""""""""""""""
@@ -484,8 +266,12 @@ endtry
 set laststatus=2
 
 " Format the status line
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ L:\ %l\ \ C:\ %c
 
+set background=dark
+  
+"set colorscheme
+colorscheme lucius
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings
@@ -508,9 +294,11 @@ endif
 
 " Delete trailing white space on save, useful for Python and CoffeeScript ;)
 func! DeleteTrailingWS()
-  exe "normal mz"
-  %s/\s\+$//ge
-  exe "normal `z"
+    let save_cursor = getpos(".")
+    let old_query = getreg('/')
+    silent! %s/\s\+$//e
+    call setpos('.', save_cursor)
+    call setreg('/', old_query)
 endfunc
 augroup deletetrailws
   autocmd!
@@ -586,31 +374,26 @@ map <leader>pp :setlocal paste!<cr>
 " => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! CmdLine(str)
-    exe "menu Foo.Bar :" . a:str
-    emenu Foo.Bar
-    unmenu Foo
+  call feedkeys(":" . a:str)
 endfunction
 
 function! VisualSelection(direction, extra_filter) range
-    let l:saved_reg = @"
-    execute "normal! vgvy"
+  let l:saved_reg = @"
+  execute "normal! vgvy"
 
-    let l:pattern = escape(@", '\\/.*$^~[]')
-    let l:pattern = substitute(l:pattern, "\n$", "", "")
+  let l:pattern = escape(@", "\\/.*'$^~[]")
+  let l:pattern = substitute(l:pattern, "\n$", "", "")
 
-    if a:direction == 'b'
-        execute "normal ?" . l:pattern . "^M"
-    elseif a:direction == 'gv'
-        call CmdLine("Ag \"" . l:pattern . "\" " )
-    elseif a:direction == 'replace'
-        call CmdLine("%s" . '/'. l:pattern . '/')
-    elseif a:direction == 'f'
-        execute "normal /" . l:pattern . "^M"
-    endif
+  if a:direction == 'gv'
+      call CmdLine("Ack '" . l:pattern . "' " )
+  elseif a:direction == 'replace'
+      call CmdLine("%s" . '/'. l:pattern . '/')
+  endif
 
-    let @/ = l:pattern
-    let @" = l:saved_reg
+  let @/ = l:pattern
+  let @" = l:saved_reg
 endfunction
+
 "show all snippets available for current buffer
 function! GetAllSnippets()
   call UltiSnips#SnippetsInCurrentScope(1)
@@ -655,3 +438,174 @@ function! <SID>BufcloseCloseIt()
      execute("bdelete! ".l:currentBufNum)
    endif
 endfunction
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" =>  Plugins
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+call plug#begin()
+Plug 'mattn/emmet-vim', {'for':'html'}
+Plug 'jiangmiao/auto-pairs'
+Plug 'majutsushi/tagbar'
+" Plug 'ludovicchabant/vim-gutentags'
+" Plug 'w0rp/ale'
+Plug 'Yggdroot/LeaderF'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'mileszs/ack.vim'
+"Custom text objects
+"new text-objs:
+"  i, and a, : parameter object
+"  ii and ai : identation object e.g vii dii cii 
+"  if and af : function object e.g. vif dif cif on functions
+"  new text-objs:
+"    i, and a, : parameter object
+"    ii and ai : identation object e.g vii dii cii 
+"    if and af : function object e.g. vif dif cif on functions
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-indent'
+Plug 'kana/vim-textobj-syntax'
+Plug 'kana/vim-textobj-function'
+Plug 'sgur/vim-textobj-parameter'
+
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'scrooloose/nerdcommenter'
+Plug 'Chiel92/vim-autoformat'
+" Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
+"Plug 'fatih/vim-go'  "Optional for go dev
+Plug 'skywind3000/asyncrun.vim'
+" Plug 'Valloric/YouCompleteMe' "Optional heavyweight Plug for cpp dev. 
+Plug 'vim-airline/vim-airline' 
+Plug 'SirVer/ultisnips'
+" Snippets are separated from the engine. Add this if you want them:
+Plug 'honza/vim-snippets'
+" Keep Plugin commands between vundle#begin/end.
+" All of your Plugins must be added before the following line
+call plug#end()
+" ------------------------------END of vim-plug --------------------------
+" Enable FZF, add to runtimepth
+set rtp+=~/.fzf
+
+filetype plugin indent on    " required
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" =>  Plugins Configuration
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"Vim Airline Configs
+let g:airline#extensions#tabline#enabled = 1
+
+"NERD Commenter configs
+let g:NERDCommentEmptyLines = 1
+let g:NERDTrimTrailingWhitespace = 1
+let g:NERDDefaultAlign = 'left'
+let g:NERDCompactSexyComs = 1
+let g:NERDSpaceDelims = 1
+
+"YOU_COMPLETE_ME Configs
+" let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py'
+" let g:ycm_show_diagnostics_ui = 0
+" let g:ycm_error_symbol = 'X'
+" let g:ycm_warning_symbol = '!'
+" let g:ycm_collect_identifiers_from_tags_files = 1
+
+"LeaderF configs
+let g:Lf_ShortcutF = '<C-P>'
+let g:Lf_RootMarkers = ['.project','.root','.git','.svn']
+let g:Lf_CacheDirectory =expand('~/.vim/cache')
+let g:Lf_ShowDevIcons = 0
+nnoremap <S-P> :LeaderfFunction<CR>
+nnoremap <S-T> :LeaderfBuffer<CR>
+
+""""""""""Ack.vim configs""""""""""""
+if executable('rg')
+  let g:ackprg = 'rg --vimgrep --type-not sql --smart-case' 
+endif
+"Empty ack search searches for <cword>
+let g:ack_use_cword_for_empty_search = 1
+"Do not jump to 1st match
+cnoreabbrev Ack Ack!
+"Maps <leader>/ 
+
+""""""""AsyncRun configs""""""""
+let g:asyncrun_open = 6
+let g:asyncrun_bell = 1 
+let g:asyncrun_rootmarks = ['.svn','.git','.root','Makefile']
+nnoremap <F6> :call asyncrun#quickfix_toggle(6)<CR>
+augroup asyncrun
+  autocmd!
+  autocmd FileType sh nnoremap <buffer> <silent> <F5>  :AsyncRun bash "$(VIM_FILEPATH)" <CR>
+  autocmd FileType go nnoremap <buffer> <silent> <S-C-B>  :AsyncRun go build "$(VIM_FILEDIR)" <CR>
+  autocmd FileType cpp  nnoremap <buffer> <silent> <S-C-B> :AsyncRun g++ -g -Wall -std=c++11 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
+  autocmd FileType python nnoremap <buffer> <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR)  python3 "$(VIM_FILEPATH)" <cr>
+  autocmd FileType cpp  nnoremap <buffer> <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
+augroup END
+
+"GitGutter Configs
+"You can jump between hunks with [c and ]c. You can preview, stage, and undo hunks with <leader>hp, <leader>hs, and <leader>hu respectively.
+"  nnoremap <Leader>ha <Plug>GitGutterStageHunk
+
+" "GutenTags configs
+let g:gutentags_project_root = ['.root','.svn','.git','.project']
+let g:gutentags_ctags_tagfile = '.tags'
+let s:vim_tags =expand('~/.cache/tags')
+let g:gutentags_cache_dir = s:vim_tags
+"
+
+" detect ~/.cache/tags create if not exist
+if !isdirectory(s:vim_tags)
+    silent! call mkdir(s:vim_tags, 'p')
+endif
+
+"
+"ALE configs
+let g:ale_completion_delay = 500
+let g:ale_echo_delay = 20
+let g:ale_sign_error = 'X'
+let g:ale_sign_warning = '!'
+let g:ale_echo_msg_error_str='E'
+let g:ale_sign_column_always = 0
+let g:ale_echo_msg_warning_str='W'
+let g:ale_echo_msg_format='[%linter%] %s [%severity%]'
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_lint_on_insert_leave = 1
+let g:ale_cpp_clangcheck_options='-- -Wall -std=c++11 -x c++'
+let g:ale_cpp_gcc_options ='-Wall -std=c++11'
+let g:airline#extensions#ale#enabled = 1
+hi! clear SpellBad
+hi! clear SpellCap
+hi! clear SpellRare
+hi SpellBad cterm=undercurl ctermfg=red 
+hi SpellCap cterm=undercurl ctermfg=blue
+hi SpellRare cterm=undercurl ctermfg=magenta
+
+"
+"Autoformat configuration
+noremap <F3> :Autoformat<CR>
+autocmd BufWrite *.h,*.cc,*cpp,*.py :Autoformat
+"Papercolor theme conifg
+" let g:PaperColor_Theme_Options = {
+"   \   'language': {
+"   \     'python': {
+"   \       'highlight_builtins' : 1
+"   \     },
+"   \     'cpp': {
+"   \       'highlight_standard_library': 1
+"   \     },
+"   \     'c': {
+"   \       'highlight_builtins' : 1
+"   \     }
+"   \   }
+"   \ }
+
+
+" UltiSnip Confgis """"""""""""""""""""""""""""""""""""""""""""
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<c-k>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsSnippetDirectories=['~/.vim/UltiSnips','UltiSnips']
+
+
