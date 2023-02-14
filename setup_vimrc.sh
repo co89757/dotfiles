@@ -12,7 +12,9 @@ echo "----- setting up your .vimrc and install Vundle ..."
 
 echo "--- copy vimrc to your home dir ---"
 cp vim8.vimrc ~/.vimrc
-echo "---- installing vundle package manager ---- "
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-echo "----- running vim +PluginInstall +qall"
-vim +PluginInstall +qall
+echo "---- installing vim-plug package manager ---- "
+hash curl 2>/dev/null || sudo apt install curl
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+echo "----- running vim +PlugInstall +qall"
+vim +PlugInstall +qall
