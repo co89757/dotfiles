@@ -12,13 +12,17 @@ select choice in "basic" "full" ; do
    basic )
      BASIC=1
      VIMRC=basic.vim
+     break 
      ;;
    full )
      VIMRC=vim8.vimrc
      BASIC=0
+     break 
      ;;
     *)
-      echo "invalid choice, default to full vimrc";;
+      echo "invalid choice, default to full vimrc"
+      break
+      ;;
  esac
 done
 
