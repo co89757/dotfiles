@@ -3,15 +3,31 @@
 echo "installing ctags if not found"
 hash ctags 2>/dev/null || sudo apt-get install exuberant-ctags
 
-if [[ ! -f vim8.vimrc ]]; then
-	echo "Did not find vim8.vimrc file in current directory, please check again."
+VIMRC=vim8.vimrc
+PS3="Choose the vimrc you want to set up (basic=plugin-free vanilla,full=battery-included) -->"
+select choice in "basic" "full" ; do
+ echo
+ case $choice in
+   basic )
+     VIMRC=basic.vim;;
+   full )
+     VIMRC=vim8.vimrc ;;
+    *)
+      echo "invalid choice, default to full vimrc";;
+ esac
+done
+
+echo "VIMRC to use: $VIMRC"
+
+if [[ ! -f "$VIMRC" ]]; then
+	echo "Did not find $VIMRC file in current directory, please check again."
 	exit 1
 fi
 
 echo "----- setting up your .vimrc and install Vundle ..."
 
 echo "--- copy vimrc to your home dir ---"
-cp vim8.vimrc ~/.vimrc
+cp "$VIMRC" ~/.vimrc
 echo "---- installing vim-plug package manager ---- "
 hash curl 2>/dev/null || sudo apt install curl
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
