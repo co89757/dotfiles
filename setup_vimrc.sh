@@ -4,14 +4,19 @@ echo "installing ctags if not found"
 hash ctags 2>/dev/null || sudo apt-get install exuberant-ctags
 
 VIMRC=vim8.vimrc
+BASIC=0
 PS3="Choose the vimrc you want to set up (basic=plugin-free vanilla,full=battery-included) -->"
 select choice in "basic" "full" ; do
  echo
  case $choice in
    basic )
-     VIMRC=basic.vim;;
+     BASIC=1
+     VIMRC=basic.vim
+     ;;
    full )
-     VIMRC=vim8.vimrc ;;
+     VIMRC=vim8.vimrc
+     BASIC=0
+     ;;
     *)
       echo "invalid choice, default to full vimrc";;
  esac
@@ -33,4 +38,4 @@ hash curl 2>/dev/null || sudo apt install curl
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 echo "----- running vim +PlugInstall +qall"
-vim +PlugInstall +qall
+(( BASIC )) && echo "skip plugin-install (basic mode)" || vim +PlugInstall +qall
