@@ -1,59 +1,50 @@
+version: "3.7"
 services:
-  proxy:
-    image: jwilder/nginx-proxy:alpine
-    labels:
-      - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy=true"
-    container_name: nextcloud-proxy
-    networks:
-      - nextcloud_network
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ./proxy/conf.d:/etc/nginx/conf.d:rw
-      - ./proxy/vhost.d:/etc/nginx/vhost.d:rw
-      - ./proxy/html:/usr/share/nginx/html:rw
-      - ./proxy/certs:/etc/nginx/certs:ro
-      - /etc/localtime:/etc/localtime:ro
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-    restart: unless-stopped
-  letsencrypt:
-    image: jrcs/letsencrypt-nginx-proxy-companion
-    container_name: nextcloud-letsencrypt
-    depends_on:
-      - proxy
-    networks:
-      - nextcloud_network
-    volumes:
-      - ./proxy/certs:/etc/nginx/certs:rw
-      - ./proxy/vhost.d:/etc/nginx/vhost.d:rw
-      - ./proxy/html:/usr/share/nginx/html:rw
-      - /etc/localtime:/etc/localtime:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    restart: unless-stopped
   db:
     image: mariadb
     container_name: nextcloud-mariadb
     networks:
-      - nextcloud_network
+      - traefik
+    labels:
+      - traefik.enable=false
     volumes:
       - db:/var/lib/mysql
       - /etc/localtime:/etc/localtime:ro
     environment:
-      - MYSQL_ROOT_PASSWORD=PASSWORD
-      - MYSQL_PASSWORD=PASSWORD
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_PASSWORD
+      - MYSQL_DATABASE
+      - MYSQL_USER
     restart: unless-stopped
+  redis:
+    image: redis:latest
+    restart: unless-stopped
+    volumes:
+      - ./redis:/var/lib/redis
+    labels:
+      - traefik.enable=false
+    networks:
+      - traefik
   app:
     image: nextcloud:latest
     container_name: nextcloud-app
     networks:
-      - nextcloud_network
+      - traefik
     depends_on:
-      - letsencrypt
-      - proxy
       - db
+      - redis
+    labels:
+      - traefik.http.routers.nextcloud.middlewares=nextcloud,nc_redirect
+      - traefik.http.routers.nextcloud.tls.certresolver=lets-encrypt
+      - traefik.http.routers.nextcloud.tls=true
+      - traefik.http.routers.nextcloud.rule=Host(`${CLOUD_URL}`)
+      - traefik.http.services.nextcloud.loadbalancer.server.port=80
+      - traefik.http.middlewares.nextcloud.headers.stsSeconds=155520011
+      - traefik.http.middlewares.nextcloud.headers.stsIncludeSubdomains=true
+      - traefik.http.middlewares.nextcloud.headers.stsPreload=true
+      - "traefik.http.middlewares.nc_redirect.redirectregex.permanent=true"
+      - "traefik.http.middlewares.nc_redirect.redirectregex.regex=^https://(.*)/.well-known/(card|cal)dav"
+      - "traefik.http.middlewares.nc_redirect.redirectregex.replacement=https://$$1/remote.php/dav/"
     volumes:
       - nextcloud:/var/www/html
       - ./app/config:/var/www/html/config
@@ -62,19 +53,20 @@ services:
       - ./app/themes:/var/www/html/themes
       - /etc/localtime:/etc/localtime:ro
     environment:
+      - REDIS_HOST=redis
       - MYSQL_HOST=db
-      - MYSQL_PASSWORD=PASSWORD
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
-      - VIRTUAL_HOST=DOMAIN.COM
-      - LETSENCRYPT_HOST=DOMAIN.COM
-      - LETSENCRYPT_EMAIL=ME@EXAMPLE.COM
+      - MYSQL_PASSWORD
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - TRUSTED_PROXIES=172.19.0.2/16
+      - NEXTCLOUD_TRUSTED_DOMAINS=${CLOUD_URL}
+      - OVERWRITEPROTOCOL=https
     restart: unless-stopped
 
 volumes:
   nextcloud:
   db:
 
-
 networks:
-  nextcloud_network:
+  traefik:
+    external: true 
