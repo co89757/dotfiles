@@ -55,6 +55,12 @@ nnoremap [q :cp<CR>
 nnoremap ]q :cn<CR>
 nnoremap <F12> <C-]>
 nnoremap <S-F12> <C-W-}>
+
+nnoremap <M-left> :vertical resize -5<CR>
+nnoremap <M-right> :vertical resize +5<CR>
+
+
+
 " Sets how many lines of history VIM has to remember
 set history=500
 
@@ -85,7 +91,9 @@ inoremap <C-v> <C-R> <C-P> "
 
 "COLIN-remove trailing spaces on each linnoe
 nnoremap <leader><Space><Space> :%s/\s\+$//<cr>
+"COLIN-resize windows
 " Fast saving
+
 nnoremap <leader>w :w!<cr>
 " :W sudo saves the file
 " (useful for handling the permission-denied error)
