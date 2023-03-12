@@ -64,7 +64,7 @@ loginfo "STEP1: Basic config and dotfiles setup"
 mkdir -p ~/{borg,script,misc}
 loginfo "STEP1.1 Copy bashrc"
 [[ -f ./.bashrc ]] && cp ./.bashrc ~/ || :
-loginfo "STEP1.2 Copy vimrc
+loginfo "STEP1.2 Copy vimrc"
 bash setup_vimrc.sh
 bash setup_vimtheme.sh
 loginfo "STEP2: Install docker"
