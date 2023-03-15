@@ -12,12 +12,12 @@ select choice in "basic" "full" ; do
    basic )
      BASIC=1
      VIMRC=basic.vim
-     break 
+     break
      ;;
    full )
      VIMRC=vim8.vimrc
      BASIC=0
-     break 
+     break
      ;;
     *)
       echo "invalid choice, default to full vimrc"
@@ -37,6 +37,9 @@ echo "----- setting up your .vimrc and install Vundle ..."
 
 echo "--- copy vimrc to your home dir ---"
 cp "$VIMRC" ~/.vimrc
+mkdir -p ~/.vim/templates
+echo "--- Copy vim template files ----"
+rsync -aP ./vim-templates/ ~/.vim/templates
 echo "---- installing vim-plug package manager ---- "
 hash curl 2>/dev/null || sudo apt install curl
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \

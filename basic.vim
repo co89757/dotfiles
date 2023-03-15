@@ -357,6 +357,17 @@ augroup deletetrailws
   autocmd BufWrite *.sh :call DeleteTrailingWS()
 augroup END
 
+""" Set up templates
+if !empty(glob("~/.vim/templates/*"))
+augroup templates
+  autocmd!
+  autocmd BufNewFile *.html 0r ~/.vim/templates/t.html
+  autocmd BufNewFile *.sh 0r ~/.vim/templates/t.sh
+augroup END
+endif
+
+
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Ag searching and cope displaying
