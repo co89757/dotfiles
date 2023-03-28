@@ -268,6 +268,6 @@ done
 # export PIPENV_VENV_IN_PROJECT=1
 
 ## Some recommended bash libraries for productivity
-# . $HOME/dev/scripts/z.sh
+[ -n $_Z_SRC ] && . $_Z_SRC || :
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 export FZF_DEFAULT_OPTS='--height 40% --border'
