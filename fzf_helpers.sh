@@ -1,4 +1,3 @@
-export FZF_DEFAULT_OPTS = "--border --height 40%"
 # cfd - cd to selected directory
 cfd() {
   local dir

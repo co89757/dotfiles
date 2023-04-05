@@ -73,7 +73,7 @@ for p in "${basic_pkgs[@]}"; do
  fi
 done
 
-more_pkgs=(fd-find net-tools)
+more_pkgs=(fd-find net-tools tmux)
 loginfo "install more packages: ${more_pkgs[*]}"
 if (( DRY )); then
  loginfo "DRY_RUN: sudo apt install ${more_pkgs[*]}"
@@ -95,10 +95,10 @@ else
 
   loginfo "Create .more_bashrc"
   touch ~/.more_bashrc
-
   loginfo "Install z.sh"
   curl -o ~/dev/script/z.sh https://raw.githubusercontent.com/rupa/z/master/z.sh
   [[ -f ~/dev/script/z.sh ]] && echo "export _Z_SRC=~/dev/script/z.sh" >> ~/.more_bashrc
+  [[ -f ./fzf_helpers.sh ]] && (cat ./fzf_helpers.sh >> ~/.more_bashrc )
   loginfo "source .more_bashrc"
   source ~/.more_bashrc
 fi
