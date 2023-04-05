@@ -55,7 +55,7 @@ while [[ $# -gt 0 ]];do
  esac
  shift # past current flag
 done
-more_dirs=(borg dev/repo dev/script misc ~/.local/bin )
+more_dirs=(borg dev/repo dev/script misc .local/bin )
 loginfo "Create more directories under home: ${more_dirs[*]}"
 for di in ${more_dirs[@]}; do
   if [[ ! -d "$HOME/$di" ]]; then
@@ -67,7 +67,7 @@ done
 loginfo "Install essential packages...."
 basic_pkgs=(vim git curl jq )
 for p in "${basic_pkgs[@]}"; do
- if hash $p &>/dev/null; then
+ if ! hash $p &>/dev/null; then
    loginfo "missing essential package: $p. installing"
    (( DRY )) && loginfo "DRY_RUN: sudo apt install $p" ||  sudo apt install $p
  fi
