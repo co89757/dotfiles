@@ -27,8 +27,8 @@ Plug 'sgur/vim-textobj-parameter'
 " Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'scrooloose/nerdcommenter'
 Plug 'Chiel92/vim-autoformat'
-" Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-surround'
 "Plug 'fatih/vim-go'  "Optional for go dev
 Plug 'skywind3000/asyncrun.vim'
 " Plug 'Valloric/YouCompleteMe' "Optional heavyweight Plug for cpp dev.
@@ -45,7 +45,8 @@ set rtp+=~/.fzf
 
 filetype plugin indent on    " required
 "----------------------------------------------- PLUGIN CONFIGURATIONS ---------------------------------------------------------
-
+"trigger emmet by pressing <C-Z>,
+let g:user_emmet_leader_key='<C-Z>'
 
 "Vim Airline Configs
 let g:airline#extensions#tabline#enabled = 1
@@ -66,7 +67,7 @@ let g:NERDSpaceDelims = 1
 
 "LeaderF configs
 let g:Lf_ShortcutF = '<C-P>'
-let g:Lf_RootMarkers = ['.project','.root','.git','.svn']
+let g:Lf_RootMarkers = ['.project','.root','.git','.svn','.vscode']
 let g:Lf_CacheDirectory =expand('~/.vim/cache')
 let g:Lf_ShowDevIcons = 0
 nnoremap <S-P> :LeaderfFunction<CR>
@@ -91,7 +92,7 @@ augroup asyncrun
   autocmd!
   autocmd FileType sh nnoremap <buffer> <silent> <F5>  :AsyncRun bash "$(VIM_FILEPATH)" <CR>
   autocmd FileType go nnoremap <buffer> <silent> <S-C-B>  :AsyncRun go build "$(VIM_FILEDIR)" <CR>
-  autocmd FileType cpp  nnoremap <buffer> <silent> <S-C-B> :AsyncRun g++ -g -Wall -std=c++11 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
+  autocmd FileType cpp  nnoremap <buffer> <silent> <S-C-B> :AsyncRun g++ -g -Wall "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
   autocmd FileType python nnoremap <buffer> <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR)  python3 "$(VIM_FILEPATH)" <cr>
   autocmd FileType cpp  nnoremap <buffer> <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
 augroup END
@@ -138,22 +139,6 @@ hi SpellRare cterm=undercurl ctermfg=magenta
 "Autoformat configuration
 noremap <F3> :Autoformat<CR>
 autocmd BufWrite *.h,*.cc,*cpp,*.py :Autoformat
-"Papercolor theme conifg
-" let g:PaperColor_Theme_Options = {
-"   \   'language': {
-"   \     'python': {
-"   \       'highlight_builtins' : 1
-"   \     },
-"   \     'cpp': {
-"   \       'highlight_standard_library': 1
-"   \     },
-"   \     'c': {
-"   \       'highlight_builtins' : 1
-"   \     }
-"   \   }
-"   \ }
-
-
 " UltiSnip Confgis """"""""""""""""""""""""""""""""""""""""""""
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-k>"

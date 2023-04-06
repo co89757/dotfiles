@@ -427,7 +427,15 @@ map <leader>x :e ~/buffer.md<cr>
 " Toggle paste mode on and off
 map <leader>pp :setlocal paste!<cr>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"NetRw config
+"Use :Lex or :Ve to open a file browser
+"Use v to vsplit, use t to open in new tab
+let g:netrw_banner=0 "disable banner
+let g:netrw_liststyle=3 "tree-view
+let g:netrw_winsize=25 "25% side pane
+let g:netrw_list_hide=netrw_gitignore#Hide()
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! CmdLine(str)
