@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  gost:
+    image: ginuerzh/gost
+    network_mode: "host"
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    command: ["-L", "http2://${USER}:${PASSWORD}@:443?cert=/etc/letsencrypt/live/${DOMAIN}/fullchain.pem&key=/etc/letsencrypt/live/${DOMAIN}/privkey.pem&probe_resist=code:404&knock=www.google.com"]
+    restart: unless-stopped
