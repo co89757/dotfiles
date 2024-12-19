@@ -39,9 +39,14 @@ logwarning() {
 #######################################################
 ## ---------- Parse arguments and flags ---------------
 #######################################################
+POSITIONAL_ARGS=()
+DOC="
+DESCRIPTION:
+SYNOPSIS:
+FLAGS:
+"
 while [[ $# -gt 0 ]];do
- flag=$1
- case "$flag" in
+ case "$1" in
   -f )
     loginfo the argument to f is $2
     shift
@@ -49,8 +54,13 @@ while [[ $# -gt 0 ]];do
   -v | --verbose)
    SCRIPT_DEBUG=1
    ;;
+  -*|--*)
+    logerr  "Unknown flag: $1. Read the doc below for correction usage:"
+    echo "$DOC"
+    exit 1
+    ;;
   *)
-   echo "unknown flag"
+   POSITIONAL_ARGS+=("$1")
    ;;
  esac
  shift # past current flag
